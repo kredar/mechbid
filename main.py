@@ -16,10 +16,12 @@
 # test submit
 #
 import webapp2
+from base_handler import *
 
-class MainHandler(webapp2.RequestHandler):
+class MainHandler(BaseHandler):
     def get(self):
-        self.response.write('Hello world!')
+        #self.response.write('Hello world!')
+        self.render("index.html")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
