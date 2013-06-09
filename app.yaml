@@ -11,8 +11,8 @@ handlers:
 
 - url: /admin/.*
   script: admin.application
-  login: required
-  secure: always
+#  login: required
+#  secure: always
 
 - url: .*
   script: main.app

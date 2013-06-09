@@ -11,9 +11,9 @@ import webapp2
 
 application = webapp2.WSGIApplication(
     [
-        ('/admin/manage', AdminHandler),
-        ('/admin/create_product', CreateProductHandler),
-        ('/admin/delete_product', DeleteProductHandler)
+        ('/admin/manage', AdminHandler)
+        # ('/admin/create_mech', CreateMechHandler),
+        # ('/admin/delete_mech', DeleteMechHandler)
     ],
     debug=True)
 

@@ -1,0 +1,58 @@
+{
+    "id": "100206",
+    "name": "Ararat Auto Electric Products",
+    "address": {
+        "street": "139 Midwest Rd",
+        "city": "Scarborough",
+        "prov": "ON",
+        "pcode": "M1P3A6"
+    },
+    "phones": [
+        {
+            "npa": "416",
+            "nxx": "759",
+            "num": "9992",
+            "dispNum": "416-759-9992",
+            "type": "primary"
+        }
+    ],
+    "geoCode": {
+        "latitude": "43.7563740685",
+        "longitude": "-79.2692289033"
+    },
+    "categories": [
+        {
+            "name": "Alternators & Starters",
+            "isSensitive": false
+        },
+        {
+            "name": "Used Auto Parts & Supplies",
+            "isSensitive": false
+        },
+        {
+            "name": "Car Electrical Services",
+            "isSensitive": false
+        }
+    ],
+    "products": {
+        "webUrl": [ ],
+        "dispAd": [
+            {
+                "url": "http://ci.yp.ca/f/1542/93/15429325ab_f.jpg",
+                "thmbUrl": "http://ci.yp.ca/l/1542/93/15429325ab_l.gif"
+            },
+            {
+                "url": "http://ci.yp.ca/f/1256/25/12562578ac_f.jpg",
+                "thmbUrl": "http://ci.yp.ca/l/1256/25/12562578ac_l.gif"
+            }
+        ],
+        "videos": [ ],
+        "photos": [ ],
+        "profiles": [ ]
+    },
+    "logos": {
+        "EN": "http://cdn.ci2.yp.ca/t/1543/74/15437414aa_t.gif",
+        "FR": "http://cdn.ci2.yp.ca/t/1543/74/15437414aa_t.gif"
+    },
+    "merchantUrl": "http://www.yellowpages.ca/bus/Ontario/Scarborough/Ararat-Auto-Electric-Products/100206.html?ypid="
+}
