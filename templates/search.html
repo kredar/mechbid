@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+     Enter parameters to search:
+     <form action="/search" method="post">
+         <input type="hidden" name="category" value="books" />
+
+         <div class="clearfix">
+             <label for="name">search:</label>
+             <div class="input">
+                 <input type="text" name="search" value="{{search}}" />
+
+             </div>
+
+         </div>
+         <input class="btn primary" id="subreview" name="subreview" type="submit" value="Search"/>
+    </form>
+</body>
+</html>

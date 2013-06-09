@@ -17,13 +17,22 @@
 #
 import webapp2
 from base_handler import *
+from add_mechanic_handler import *
+from search_handler import *
 
 
 class MainHandler(BaseHandler):
     def get(self):
         #self.response.write('Hello world!')
-        self.render("index.html")
+        self.response.write(" <a href=\"add_mechanic\" > Add mechanic</a>"
+                            "<br>"
+                            " <a href=\"search\" > Search</a>")
 
-app = webapp2.WSGIApplication([
-    ('/', MainHandler)
-], debug=True)
+
+app = webapp2.WSGIApplication(
+    [('/add_mechanic', AddMechanicHandler),
+     ('/search', SearchHandler),
+     ('/', MainHandler)
+
+    ],
+    debug=True)
