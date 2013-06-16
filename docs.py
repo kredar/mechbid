@@ -1,8 +1,5 @@
 __author__ = 'Artiom'
 
-
-
-
 """ Contains 'helper' classes for managing search.Documents.
 BaseDocumentManager provides some common utilities, and the Product subclass
 adds some Product-document-specific helper methods.
@@ -24,18 +21,16 @@ from google.appengine.ext import ndb
 
 
 class BaseDocumentManager():
-#    """Abstract class. Provides helper methods to manage search.Documents."""
+    """Abstract class. Provides helper methods to manage search.Documents."""
 
     @classmethod
     def create_document(cls, name, description, address):
-
+        """ Creates doc for specific mechanic """
         document = search.Document(
             fields=[search.TextField(name='name', value=name),
                     search.TextField(name='description', value=description),
                     search.TextField(name='address', value=address),
                     search.DateField(name='date', value=datetime.now().date())])
-
-
 
         try:
             search.Index(name=INDEX_NAME).put(document)
@@ -74,6 +69,7 @@ class BaseDocumentManager():
             #         except search.Error:
             #         logging.exception('Search failed')
 
+
     @classmethod
     def search_query(cls, query_string):
         results = None
@@ -88,7 +84,6 @@ class BaseDocumentManager():
 
     @classmethod
     def find_documents(cls, query_string, limit, cursor):
-
         try:
             subject_desc = search.SortExpression(
                 expression='name',
@@ -101,7 +96,7 @@ class BaseDocumentManager():
 
             # Set query options
             options = search.QueryOptions(
-                limit=limit,  # the number of results to return
+                limit=limit, # the number of results to return
                 cursor=cursor,
                 sort_options=sort,
                 returned_fields=['name', 'address', 'description'],
@@ -117,16 +112,19 @@ class BaseDocumentManager():
             logging.exception('Search failed')
         return None
 
+
+
+
+def build_suggestions(self, str):
     """ Takes a sentence and returns the set of all possible prefixes for each word.
-    For instance "hello world" becomes "h he hel hell hello w wo wor worl world" """
-    def build_suggestions(self, str):
-        suggestions = []
-        for word in str.split():
-            prefix = ""
-            for letter in word:
-                prefix += letter
-                suggestions.append(prefix)
-        return ' '.join(suggestions)
+        For instance "hello world" becomes "h he hel hell hello w wo wor worl world" """
+    suggestions = []
+    for word in str.split():
+        prefix = ""
+        for letter in word:
+            prefix += letter
+            suggestions.append(prefix)
+    return ' '.join(suggestions)
 
     # # Example use
     # document = search.Document(

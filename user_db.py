@@ -1,5 +1,8 @@
 __author__ = 'Artiom'
 
+"""Contains user db and associated functions"""
+
+
 import os
 import re
 import random

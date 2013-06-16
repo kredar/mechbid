@@ -11,9 +11,10 @@ import webapp2
 
 application = webapp2.WSGIApplication(
     [
-        ('/admin/manage', AdminHandler)
-        # ('/admin/create_mech', CreateMechHandler),
-        # ('/admin/delete_mech', DeleteMechHandler)
+        ('/admin/manage', AdminHandler),
+        ('/admin/import_mech_data', ImportMechData),
+        ('/admin/create_mech', CreateMechHandler),
+        ('/admin/delete_mech', DeleteMechHandler)
     ],
     debug=True)
 

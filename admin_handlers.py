@@ -15,6 +15,8 @@ import uuid
 import json
 
 from base_handler import BaseHandler
+from docs import *
+from mech_db import *
 from pprint import pprint
 
 from google.appengine.api import users
@@ -119,10 +121,16 @@ def importData():
 
 class AdminHandler(BaseHandler):
     """Displays the admin page with all the admin options"""
+    def get(self):
+        self.render("admin.html")
 
+
+class ImportMechData(BaseHandler):
+    # TODO implement ImportMechData class
     # @BaseHandler.logged_in
     def get(self):
-        self.write(importData())
+        self.write("Under construction")
+        #self.write(importData())
 
 
 class DeleteMechHandler(BaseHandler):
@@ -138,5 +146,26 @@ class CreateMechHandler(BaseHandler):
     and its associated indexed document."""
 
     def get(self):
-        self.write("Under construction")
+        self.render("index.html")
 
+    def post(self):
+        name = self.request.get('name')
+        description = self.request.get('description')
+        address = self.request.get('address')
+
+
+
+        params = {
+            'pid': uuid.uuid4().hex, # auto-generate default UID
+            'name': name,
+            'description': description,
+            'location': '',
+            'address': address}
+
+        BaseDocumentManager.create_document(name=name, description=description, address=address)
+
+        Mechanic.create(params, params['pid'])
+
+
+
+        self.redirect('/')
