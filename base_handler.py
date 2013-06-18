@@ -44,7 +44,7 @@ class BaseHandler(webapp2.RequestHandler):
         #logging.error(str(user.key().id()))
         current_user = user.name
         # logging.error(str(user.key().id()))
-        self.set_secure_cookie('user_id', str(user.key().id()))
+        self.set_secure_cookie('user_id', str(user.key))
         #self.set_secure_cookie('user_id', user.name)
 
     def logout(self):

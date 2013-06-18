@@ -17,7 +17,7 @@ from string import letters
 from time import gmtime, strftime
 
 from google.appengine.api import memcache
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 from google.appengine.api import mail
 #from google.appengine.ext import blobstore
 from google.appengine.api import images
@@ -59,7 +59,7 @@ def users_key(group='default'):
     :param group:
     :return:
     """
-    return db.Key.from_path('users', group)
+    return ndb.Key('users', group)
 
 
 def valid_username(username):
@@ -74,10 +74,11 @@ def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
 
-class User(db.Model):
-    name = db.StringProperty(required=True)
-    pw_hash = db.StringProperty(required=True)
-    email = db.StringProperty()
+class User(ndb.Model):
+    # TODO move User model to ndb
+    name = ndb.StringProperty(required=True)
+    pw_hash = ndb.StringProperty(required=True)
+    email = ndb.StringProperty()
 
     @classmethod
     def by_id(cls, uid):
