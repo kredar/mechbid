@@ -169,3 +169,4 @@ class CreateMechHandler(BaseHandler):
 
 
         self.redirect('/')
+

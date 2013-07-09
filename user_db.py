@@ -103,4 +103,9 @@ class User(ndb.Model):
         if u and valid_pw(name, pw, u.pw_hash):
             return u
 
+    @classmethod
+    def add_user(cls, username, password, email):
+        u = User.register(username, password, email)
+        u.put()
+
 

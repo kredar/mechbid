@@ -14,8 +14,9 @@ class SignUpHandler(BaseHandler):
         password = self.request.get('password')
         email = self.request.get('email')
 
+        u = User.add_user(username, password, email)
 
-        u = User.register(username, password, email)
-        u.put()
+
+
         self.login(u)
         self.redirect('/')
