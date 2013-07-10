@@ -13,7 +13,7 @@ application = webapp2.WSGIApplication(
     [
         ('/admin/manage', AdminHandler),
         ('/admin/import_mech_data', ImportMechData),
-        ('/admin/create_mech', CreateMechHandler),
+        ('/admin/add_business', CreateBusinessHandler),
         ('/admin/delete_mech', DeleteMechHandler)
     ],
     debug=True)

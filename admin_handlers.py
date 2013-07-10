@@ -1,4 +1,4 @@
-__author__ = 'Artiom'
+__author__ = 'Art(i|y)om'
 
 #!/usr/bin/env python
 #
@@ -16,7 +16,7 @@ import json
 
 from base_handler import BaseHandler
 from docs import *
-from mech_db import *
+from business_db import *
 from pprint import pprint
 
 from google.appengine.api import users
@@ -141,19 +141,17 @@ class DeleteMechHandler(BaseHandler):
         self.write("Under construction")
 
 
-class CreateMechHandler(BaseHandler):
-    """Handler to create a new mech account with all the properties: this constitutes both a mech entity
+class CreateBusinessHandler(BaseHandler):
+    """Handler to create a new business account with all the properties: this constitutes both a mech entity
     and its associated indexed document."""
 
     def get(self):
-        self.render("index.html")
+        self.render("new_business.html")
 
     def post(self):
         name = self.request.get('name')
         description = self.request.get('description')
         address = self.request.get('address')
-
-
 
         params = {
             'pid': uuid.uuid4().hex, # auto-generate default UID
@@ -164,7 +162,7 @@ class CreateMechHandler(BaseHandler):
 
         BaseDocumentManager.create_document(name=name, description=description, address=address)
 
-        Mechanic.create(params, params['pid'])
+        Business.create(params, params['pid'])
 
 
 
