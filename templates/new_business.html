@@ -3,6 +3,35 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Add New Business</title>
+<script language="javascript">
+phones = 1;
+function addPhone() {
+if (phones != 3) {
+phones += 1;
+document.getElementById('phone_number').innerHTML +=  "<table>"+
+        "<tr><td><label for='type'>Type:</label>"+
+            "</td><td><div class='input'>"+
+                "<select name='phone"+phones+"' value=''>"+
+                "<option value='fax'>Fax</option>"+
+                "<option value='secondary'>Secondary</option>"+
+                "</select>"+
+           "</div></td></tr><tr><td>"+
+            "<label for='phone'>Number:</label>"+
+            "</td><td>"+
+            "<div class='input'>"+
+                "<input type='text' name='phone' value='' />  "+
+            "</div>"+
+            "</td>"+
+        "</tr>"+
+        "</table>";
+
+} else {
+document.getElementById('phone_number').innerHTML += "<br />Only 3 phones allowed.";
+document.getElementById('add').disabled=true;
+}
+}
+</script>
+
 </head>
 
 <body>
@@ -13,31 +42,49 @@
     <form action="/new_business" method="post">
         <input type="hidden" name="category" value="books" />
 
-        <div class="clearfix">
+       <table border="0" width="400px">
+        <tr>
+            <td>
             <label for="name">Business name:</label>
+            </td><td>
             <div class="input">
                 <input type="text" name="name" value="{{name}}" />
             </div>
-        </div>
+            </td>
+         </tr>
 
-        <div class="clearfix">
+        <tr>
+            <td>
             <label for="name">Address</label>
-            <br>
+            </td><td>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>
             <label for="name">Street:</label>
+            </td><td>
             <div class="input">
                 <input type="text" name="street" value="{{street}}" />
             </div>
-        </div>
+            </td>
+        </tr>
 
-        <div class="clearfix">
+        <tr>
+            <td>
             <label for="name">City:</label>
+            </td><td>
             <div class="input">
                 <input type="text" name="city" value="{{city}}" />
             </div>
-        </div>
+            </td>
+        </tr>
 
-        <div class="clearfix">
+        <tr>
+            <td>
             <label for="name">Province:</label>
+            </td><td>
             <div class="input">
                 <select name="province" value="{{province}}">
                 <option value="AB">Alberta</option>
@@ -55,44 +102,94 @@
                 <option value="YT">Yukon</option>
                 </select>
             </div>
-        </div>
+            </td>
+        </tr>
 
-        <div class="clearfix">
-            <label for="name">Postal Code:</label>
+        <tr>
+            <td>
+               <label for="name">Postal Code:</label>
+            </td><td>
             <div class="input">
                 <input type="text" name="pcode" value="{{pcode}}" />
             </div>
-        </div>
+            </td>
+        </tr>
 
-        <div class="clearfix">
-            <label for="phone">Phone:</label>
+         <tr>
+            <td>
+            <label for="name">Phone</label>
+            </td><td>
+
+            </td>
+        </tr>
+        </table>
+        <div id="phone_number">
+        <table>
+        <tr>
+            <td>
+            <label for="type">Type:</label>
+            </td><td>
+            <div class="input">
+                <select name="phone" value="{{phone}}">
+                <option value="primary">Primary</option>
+                <option value="fax">Fax</option>
+                <option value="secondary">Secondary</option>
+                </select>
+            </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <label for="phone">Number:</label>
+            </td><td>
             <div class="input">
                 <input type="text" name="phone" value="{{phone}}" />
+                <a href="#" onclick="addPhone()" id="add">Add phone</a>
             </div>
+
+            </td>
+        </tr>
+        </table>
         </div>
 
-        <div class="clearfix">
-            <label for="description">mechanic<br/>description:</label>
+        <table border="0" width="400px">
+        <tr>
+            <td>
+            <label for="name">Email:</label>
+            </td><td>
             <div class="input">
-                <textarea name="description" rows="3" cols="80">{{description}}</textarea>
+                <input type="text" name="email" value="{{city}}" />
             </div>
-        </div>
+            </td>
+        </tr>
 
-        <div class="clearfix">
-            <label for="address">address:</label>
+        <tr>
+            <td>
+            <label for="name">Website:</label>
+            </td><td>
             <div class="input">
-                <input type="text" id="address" name="address" value="{{address}}"/>
+                <input type="text" name="website" value="{{city}}" />
             </div>
-        </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
 
+            </td><td>
 
-        <div class="actions">
-            <input class="btn primary" id="subreview" name="subreview" type="submit" value="Create"/>
-            <input type="reset" class="btn primary"  name="reviewreset" value="Clear"/>
-        </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+
+            </td><td>
+
+            </td>
+        </tr>
+
+       </table>
     </form>
-
-
 
 </body>
 </html>
