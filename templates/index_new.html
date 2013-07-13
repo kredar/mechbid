@@ -57,7 +57,7 @@ body {
         <form class="navbar-form pull-right">
           <input class="span2" type="text" placeholder="Email">
           <input class="span2" type="password" placeholder="Password">
-          <button type="submit" class="btn">Sign in</button>
+          <button type="submit" class="btn" name="signIn" >Sign in</button>
         </form>
       </div>
       <!--/.nav-collapse --> 
@@ -71,7 +71,7 @@ body {
     <h1>MechBid &#8211; your one-stop source for Ontario mechanics</h1>
     <p>MechBid is the leading provider of auto repair and maintenance information to consumers. Our extensive network of repair shops helps you find a repair shop you can trust, and our price estimator ensures you never pay more than you should. We also offer an extensive database of articles, reports, and references from our in-house repair experts and community of car owners.</p>
     <div class="search-box-home">
-      <form class="form-inline" action="/search" method="post">
+      <form class="form-inline"  method="post">
         <input type="hidden" name="category" value="books" />
         <label for="search">I want to fix my</label>
         <input type="text" name="search" data-provide="typeahead" data-items="4" data-source="[&quot;Acura&quot;,
@@ -155,7 +155,7 @@ body {
 <!-- Javascript
     ================================================== --> 
 <!-- Placed at the end of the document so the pages load faster --> 
-<script src="../js/jquery.js"></script> 
+<script src="../js/jquery.js"></script>
 <script src="../js/bootstrap.js"></script>
 </body>
 </html>

@@ -168,5 +168,5 @@ class CreateMechHandler(BaseHandler):
 
 
 
-        self.redirect('/')
+        self.redirect('/admin/manage')
 

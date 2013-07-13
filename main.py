@@ -17,7 +17,7 @@
 #
 import webapp2
 from base_handler import *
-from search_handler import *
+from MainPageHandler import *
 from handlers import *
 
 
@@ -34,7 +34,7 @@ class MainHandler(BaseHandler):
 
 
 app = webapp2.WSGIApplication(
-    [('/search', SearchHandler),
+    [('//?', MainPageHandler),
      ('/signup', SignUpHandler),
      ('/', MainHandler)
 

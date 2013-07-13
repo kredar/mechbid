@@ -76,51 +76,56 @@ body {
             <p>Shops displaying the MechBid logo have passed MechBid's rigorous screening and customer interview process, and guarantee fair prices. <a href="#">Learn more &raquo;</a></p>
           </div>
           <hr>
-          <div class="search-result">
+
+            {% for doc in results%}
+                <div class="search-result">
             <h3><a href="#">Repair Shop Name</a></h3>
-            <ul>
+
+                    <ul>
               <li>Distance from M4V 1J7 &#8211; 1.0 km</li>
               <li>416-123-4567</li>
-              <li>40 Yonge St, Toronto, ON M4V 1Y5</li>
-              <li>Specialized in: Category 1, Category 2, Category 3</li>
+              <li>{{ doc.field('address').value}}</li>
+              <li>Specialized in: {{ doc.field('description').value}}</li>
             </ul>
           </div>
-          <div class="search-result">
-            <h3><a href="#">Repair Shop Name</a></h3>
-            <ul>
-              <li>Distance from M4V 1J7 &#8211; 1.0 km</li>
-              <li>416-123-4567</li>
-              <li>40 Yonge St, Toronto, ON M4V 1Y5</li>
-              <li>Specialized in: Category 1, Category 2, Category 3</li>
-            </ul>
-          </div>
-          <div class="search-result">
-            <h3><a href="#">Repair Shop Name</a></h3>
-            <ul>
-              <li>Distance from M4V 1J7 &#8211; 1.0 km</li>
-              <li>416-123-4567</li>
-              <li>40 Yonge St, Toronto, ON M4V 1Y5</li>
-              <li>Specialized in: Category 1, Category 2, Category 3</li>
-            </ul>
-          </div>
-          <div class="search-result">
-            <h3><a href="#">Repair Shop Name</a></h3>
-            <ul>
-              <li>Distance from M4V 1J7 &#8211; 1.0 km</li>
-              <li>416-123-4567</li>
-              <li>40 Yonge St, Toronto, ON M4V 1Y5</li>
-              <li>Specialized in: Category 1, Category 2, Category 3</li>
-            </ul>
-          </div>
-          <div class="search-result last">
-            <h3><a href="#">Repair Shop Name</a></h3>
-            <ul>
-              <li>Distance from M4V 1J7 &#8211; 1.0 km</li>
-              <li>416-123-4567</li>
-              <li>40 Yonge St, Toronto, ON M4V 1Y5</li>
-              <li>Specialized in: Category 1, Category 2, Category 3</li>
-            </ul>
-          </div>
+
+            {% endfor %}
+          <!--<div class="search-result">-->
+            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
+            <!--<ul>-->
+              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
+              <!--<li>416-123-4567</li>-->
+              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
+              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+          <!--<div class="search-result">-->
+            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
+            <!--<ul>-->
+              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
+              <!--<li>416-123-4567</li>-->
+              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
+              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+          <!--<div class="search-result">-->
+            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
+            <!--<ul>-->
+              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
+              <!--<li>416-123-4567</li>-->
+              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
+              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+          <!--<div class="search-result last">-->
+            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
+            <!--<ul>-->
+              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
+              <!--<li>416-123-4567</li>-->
+              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
+              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
+            <!--</ul>-->
+          <!--</div>-->
         </div>
         <div class="span3 sec-search-results">
           <div class="map-results">

@@ -19,10 +19,7 @@ from time import gmtime, strftime
 from google.appengine.api import memcache
 from google.appengine.ext import ndb
 from google.appengine.api import mail
-#from google.appengine.ext import blobstore
-from google.appengine.api import images
 from google.appengine.api import users
-from google.appengine.ext.webapp import blobstore_handlers
 
 from config import *
 
