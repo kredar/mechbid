@@ -33,6 +33,7 @@ class BaseDocumentManager():
                     search.TextField(name='address', value=params['address']),
                     search.DateField(name='date', value=datetime.now().date())])
 
+
         try:
             search.Index(name=INDEX_NAME).put(document)
         except search.Error:
