@@ -146,7 +146,7 @@ class CreateMechHandler(BaseHandler):
     and its associated indexed document."""
 
     def get(self):
-        self.render("index.html")
+        self.render("add_mechanic.html")
 
     def post(self):
         name = self.request.get('name')

@@ -11,7 +11,7 @@ _INDEX_NAME="my_mechanic"
 
 class MainPageHandler(BaseHandler):
     def get(self):
-        self.render("index_new.html")
+        self.render("index.html")
 
     def post(self):
         str_to_search = self.request.get('search')
