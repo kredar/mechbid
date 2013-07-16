@@ -1,8 +1,7 @@
 __author__ = 'Artiom'
 
 """ Contains 'helper' classes for managing search.Documents.
-BaseDocumentManager provides some common utilities, and the Product subclass
-adds some Product-document-specific helper methods.
+BaseDocumentManager provides some common utilities.
 """
 
 import collections
@@ -26,8 +25,8 @@ class BaseDocumentManager():
     @classmethod
     def create_document(cls, params):
     #name, description, address):
-        """ Creates doc for specific mechanic """
 
+        """ Creates doc for specific mechanic """
         document = search.Document(
             fields=[search.TextField(name='name', value=params['name']),
                     search.TextField(name='description', value=params['description']),
