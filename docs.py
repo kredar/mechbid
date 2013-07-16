@@ -24,12 +24,14 @@ class BaseDocumentManager():
     """Abstract class. Provides helper methods to manage search.Documents."""
 
     @classmethod
-    def create_document(cls, name, description, address):
+    def create_document(cls, params):
+    #name, description, address):
         """ Creates doc for specific mechanic """
+
         document = search.Document(
-            fields=[search.TextField(name='name', value=name),
-                    search.TextField(name='description', value=description),
-                    search.TextField(name='address', value=address),
+            fields=[search.TextField(name='name', value=params['name']),
+                    search.TextField(name='description', value=params['description']),
+                    search.TextField(name='address', value=params['address']),
                     search.DateField(name='date', value=datetime.now().date())])
 
         try:

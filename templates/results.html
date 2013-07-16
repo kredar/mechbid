@@ -79,7 +79,7 @@ body {
 
             {% for doc in results%}
                 <div class="search-result">
-            <h3><a href="#">Repair Shop Name</a></h3>
+            <h3><a href="#">{{doc.field('name').value}}</a></h3>
 
                     <ul>
               <li>Distance from M4V 1J7 &#8211; 1.0 km</li>

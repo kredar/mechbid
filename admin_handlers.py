@@ -162,7 +162,7 @@ class CreateMechHandler(BaseHandler):
             'location': '',
             'address': address}
 
-        BaseDocumentManager.create_document(name=name, description=description, address=address)
+        BaseDocumentManager.create_document(params)
 
         Mechanic.create(params, params['pid'])
 
