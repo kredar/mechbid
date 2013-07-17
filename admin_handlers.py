@@ -153,6 +153,8 @@ class CreateBusinessHandler(BaseHandler):
         description = self.request.get('description')
         address = self.request.get('address')
 
+
+
         params = {
             'pid': uuid.uuid4().hex, # auto-generate default UID
             'name': name,

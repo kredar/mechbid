@@ -17,18 +17,25 @@
 #
 import webapp2
 from base_handler import *
-from search_handler import *
+from MainPageHandler import *
+from handlers import *
 
 
 class MainHandler(BaseHandler):
     def get(self):
         self.response.write(" <a href=\"/admin/manage\" > Admin Page</a>"
                             "<br>"
-                            " <a href=\"search\" > Search</a>")
+                            " <a href=\"search\" > Search</a>"
+                            "<br>"
+                            " <a href=\"signup\" > Signup</a>"
+
+
+        )
 
 
 app = webapp2.WSGIApplication(
-    [('/search', SearchHandler),
+    [('//?', MainPageHandler),
+     ('/signup', SignUpHandler),
      ('/', MainHandler)
 
     ],

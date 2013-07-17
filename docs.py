@@ -1,8 +1,7 @@
 __author__ = 'Artiom'
 
 """ Contains 'helper' classes for managing search.Documents.
-BaseDocumentManager provides some common utilities, and the Product subclass
-adds some Product-document-specific helper methods.
+BaseDocumentManager provides some common utilities.
 """
 
 import collections
@@ -24,13 +23,16 @@ class BaseDocumentManager():
     """Abstract class. Provides helper methods to manage search.Documents."""
 
     @classmethod
-    def create_document(cls, name, description, address):
+    def create_document(cls, params):
+    #name, description, address):
+
         """ Creates doc for specific mechanic """
         document = search.Document(
-            fields=[search.TextField(name='name', value=name),
-                    search.TextField(name='description', value=description),
-                    search.TextField(name='address', value=address),
+            fields=[search.TextField(name='name', value=params['name']),
+                    search.TextField(name='description', value=params['description']),
+                    search.TextField(name='address', value=params['address']),
                     search.DateField(name='date', value=datetime.now().date())])
+
 
         try:
             search.Index(name=INDEX_NAME).put(document)
@@ -90,6 +92,9 @@ class BaseDocumentManager():
                 #direction=search.SortExpression.DESCENDING,
                 direction=search.SortExpression.ASCENDING,
                 default_value='')
+
+
+
 
             # Sort up to 1000 matching results by subject in descending order
             sort = search.SortOptions(expressions=[subject_desc], limit=1000)

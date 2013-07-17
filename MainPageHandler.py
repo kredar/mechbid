@@ -1,6 +1,5 @@
 __author__ = 'Artiom'
 
-
 import logging
 
 from base_handler import *
@@ -10,12 +9,14 @@ from config import *
 _INDEX_NAME="my_mechanic"
 
 
-class SearchHandler(BaseHandler):
+class MainPageHandler(BaseHandler):
     def get(self):
-        self.render("search.html")
+        self.render("index.html")
 
     def post(self):
         str_to_search = self.request.get('search')
+        location = self.request.get('location')
+
 
         #str_to_search = "second"
         #logging.error("search ====================== %s " % str_to_search)
@@ -27,16 +28,18 @@ class SearchHandler(BaseHandler):
 
         #self.write(results)
         if results:
-            for doc in results:
-                # logging.info("doc: %s ", doc)
-                #search_str="ID="+doc.id+doc.field
-                self.write("name %s <br>" % doc.field('name').value)
-                self.write("doc ID= %s <br>" % doc.doc_id)
-                self.write("doc = %s <br><br>" % doc)
-
-        else:
-            self.write("No Results")
-
+            self.render("results.html", results=results)
+        #
+        #     for doc in results:
+        #         # logging.info("doc: %s ", doc)
+        #         #search_str="ID="+doc.id+doc.field
+        #         self.write("name %s <br>" % doc.field('name').value)
+        #         self.write("doc ID= %s <br>" % doc.doc_id)
+        #         self.write("doc = %s <br><br>" % doc)
+        #
+        # else:
+        #     self.write("No Results")
+        # self.write("Test")
 
 
 

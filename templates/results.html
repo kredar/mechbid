@@ -1,9 +1,150 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title></title>
-</head>
-<body>
+<meta charset="utf-8">
+<title>MechBid</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
 
+<!-- Styles -->
+<link href="../css/bootstrap.css" rel="stylesheet">
+<style type="text/css">
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+</style>
+<link href="../css/bootstrap-responsive.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="../js/html5shiv.js"></script>
+    <![endif]-->
+
+<!-- Fav and touch icons -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="../ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="../ico/apple-touch-icon-57-precomposed.png">
+<link rel="shortcut icon" href="../ico/favicon.png">
+</head>
+
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="brand" href="#">MechBid</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li class="nav-header">Nav header</li>
+              <li><a href="#">Separated link</a></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="navbar-form pull-right">
+          <input class="span2" type="text" placeholder="Email">
+          <input class="span2" type="password" placeholder="Password">
+          <button type="submit" class="btn">Sign in</button>
+        </form>
+      </div>
+      <!--/.nav-collapse --> 
+    </div>
+  </div>
+</div>
+<div class="container"> 
+  
+  <!-- Example row of columns -->
+  <div class="row">
+    <div class="span12 main-search-header"><span class="breadcrumb">Find a Shop &raquo; Toronto M4V 1J7 &raquo; Ford Repair and Service</span>
+      <div class="row">
+        <div class="span9 main-search-results">
+          <div class="">
+            <h2>Search Results for Ford near M4V 1J7</h2>
+            <p>Shops displaying the MechBid logo have passed MechBid's rigorous screening and customer interview process, and guarantee fair prices. <a href="#">Learn more &raquo;</a></p>
+          </div>
+          <hr>
+
+            {% for doc in results%}
+                <div class="search-result">
+            <h3><a href="#">{{doc.field('name').value}}</a></h3>
+
+                    <ul>
+              <li>Distance from M4V 1J7 &#8211; 1.0 km</li>
+              <li>{{ doc.field('address').value}}</li>
+              <li>Specialized in: {{ doc.field('description').value}}</li>
+            </ul>
+          </div>
+
+            {% endfor %}
+          <!--<div class="search-result">-->
+            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
+            <!--<ul>-->
+              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
+              <!--<li>416-123-4567</li>-->
+              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
+              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+          <!--<div class="search-result">-->
+            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
+            <!--<ul>-->
+              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
+              <!--<li>416-123-4567</li>-->
+              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
+              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+          <!--<div class="search-result">-->
+            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
+            <!--<ul>-->
+              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
+              <!--<li>416-123-4567</li>-->
+              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
+              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+          <!--<div class="search-result last">-->
+            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
+            <!--<ul>-->
+              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
+              <!--<li>416-123-4567</li>-->
+              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
+              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+        </div>
+        <div class="span3 sec-search-results">
+          <div class="map-results">
+            <iframe width="270" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=AML+Auto+Service,+Laird+Drive,+Toronto,+ON,+Canada&amp;aq=0&amp;oq=AML+Auto+Service&amp;sll=43.697169,-79.377594&amp;sspn=0.218187,0.528374&amp;ie=UTF8&amp;hq=AML+Auto+Service,&amp;hnear=Laird+Dr,+Toronto,+Ontario,+Canada&amp;t=m&amp;ll=43.707423,-79.362509&amp;spn=0.004653,0.006437&amp;z=16&amp;iwloc=A&amp;output=embed"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <footer>
+    <p>&copy; MechBid 2013</p>
+  </footer>
+</div>
+<!-- /container --> 
+
+<!-- Javascript
+    ================================================== --> 
+<!-- Placed at the end of the document so the pages load faster --> 
+<script src="../js/jquery.js"></script> 
+<script src="../js/bootstrap.js"></script>
 </body>
 </html>

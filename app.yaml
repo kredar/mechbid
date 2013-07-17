@@ -14,11 +14,21 @@ handlers:
 #  login: required
 #  secure: always
 
+- url: /css
+  static_dir: css
+
+- url: /img
+  static_dir: img
+
+- url: /js
+  static_dir: js
+
 - url: .*
   script: main.app
 
 libraries:
 - name: jinja2
   version: latest
+
 - name: webapp2
   version: "2.5.2"
