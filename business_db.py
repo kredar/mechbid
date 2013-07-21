@@ -4,6 +4,10 @@ import logging
 
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
+
+
+
+
 class Address(ndb.Model):
     street = ndb.StringProperty()
     city = ndb.StringProperty()
@@ -34,10 +38,9 @@ class Business(ndb.Model):
     geoLocation = ndb.GeoPtProperty(required=True)
     workingHours = ndb.StructuredProperty(WorkingHours, repeated = True)
     languagesSpoken = ndb.StringProperty(repeated = True)
+    brandsServiced = ndb.StringProperty(repeated = True)
     categories = ndb.StringProperty(repeated = True)
     services = ndb.StringProperty(repeated = True) #TBD
-    brandsServiced = ndb.StringProperty(repeated = True)
-    languageSpoken = ndb.StringProperty(repeated = True)
     paymentMethod = ndb.StringProperty(repeated = True)
     rating = ndb.IntegerProperty()
     dateAdded = ndb.DateTimeProperty(auto_now_add = True)

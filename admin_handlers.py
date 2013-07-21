@@ -24,6 +24,8 @@ from google.appengine.ext.deferred import defer
 from google.appengine.ext import ndb
 from google.appengine.api import search
 
+car_brands = ["Acura","Aston Martin","Audi","Bentley","BMW","Buick","Cadillac","Chevrolet","Chrysler","Dodge","Ferrari","Fiat","Ford","GMC","Honda","Hyundai","Infiniti","Jaguar","Jeep","Kia","Lamborghini","Land Rover","Lexus","Lincoln","Lotus","Maserati","Maybach","Mazda","Mercedes-Benz","MINI","Mitsubishi","Nissan","Porsche","Ram","Rolls-Royce","Scion","smart","Subaru","Suzuki","Toyota","Volkswagen","Volvo"]
+
 
 def reinitAll(sample_data=True):
     """
@@ -146,7 +148,7 @@ class CreateBusinessHandler(BaseHandler):
     and its associated indexed document."""
 
     def get(self):
-        self.render("new_business.html")
+        self.render("new_business.html", car_brands=car_brands)
 
     def post(self):
         name = self.request.get('name')

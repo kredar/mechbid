@@ -5,13 +5,15 @@
 <title>Add New Business</title>
 <script language="javascript">
 phones = 1;
+lang = 1;
+
 function addPhone() {
 if (phones != 3) {
 phones += 1;
 document.getElementById('phone_number').innerHTML +=  "<table>"+
         "<tr><td><label for='type'>Type:</label>"+
             "</td><td><div class='input'>"+
-                "<select name='phone"+phones+"' value=''>"+
+                "<select name='phone_type"+phones+"' value=''>"+
                 "<option value='fax'>Fax</option>"+
                 "<option value='secondary'>Secondary</option>"+
                 "</select>"+
@@ -19,7 +21,7 @@ document.getElementById('phone_number').innerHTML +=  "<table>"+
             "<label for='phone'>Number:</label>"+
             "</td><td>"+
             "<div class='input'>"+
-                "<input type='text' name='phone' value='' />  "+
+                "<input type='text' name='phone_number"+phones+"' value='' />  "+
             "</div>"+
             "</td>"+
         "</tr>"+
@@ -27,8 +29,52 @@ document.getElementById('phone_number').innerHTML +=  "<table>"+
 
 } else {
 document.getElementById('phone_number').innerHTML += "<br />Only 3 phones allowed.";
-document.getElementById('add').disabled=true;
+document.getElementById('add_phone').disabled=true;
 }
+}
+
+function addLanguage() {
+if (lang != 5) {
+lang += 1;
+document.getElementById('language').innerHTML +=  "<table>"+
+        "<tr>"+
+            "<td>"+
+            "<label for='type'>Language:</label>"+
+            "</td><td>"+
+            "<div class='input'>"+
+                "<select name='language"+lang+"' value=''> "+
+                "<option value='English'>English</option>  "+
+                "<option value='French'>French</option>"+
+                "<option value='Russian'>Russian</option>"+
+                "<option value='Cantonese'>Cantonese</option>"+
+                "<option value='Ukrainian'>Ukrainian</option>"+
+                "<option value='Hebrew'>Hebrew</option>"+
+                "<option value='German'>German</option>"+
+                "<option value='Farsi'>Farsi</option>"+
+                "<option value='Italian'>Italian</option>"+
+                "</select>"+
+            "</div>"+
+            "</td>"+
+        "</tr>"+
+        "</table>";
+
+} else {
+document.getElementById('language').innerHTML += "<br />Only 5 languages allowed.";
+document.getElementById('add_lang').disabled=true;
+}
+}
+function addBrand() {
+    if(document.getElementById('brnds').value == '')
+        {document.getElementById('brnds').value = document.getElementById('select_brand').value;}
+    else
+        {document.getElementById('brnds').value = document.getElementById('brnds').value+','+document.getElementById('select_brand').value;}
+}
+
+function addPayment() {
+    if(document.getElementById('pymnt').value == '')
+        {document.getElementById('pymnt').value = document.getElementById('select_payment').value;}
+    else
+        {document.getElementById('pymnt').value = document.getElementById('pymnt').value+','+document.getElementById('select_payment').value;}
 }
 </script>
 
@@ -130,7 +176,7 @@ document.getElementById('add').disabled=true;
             <label for="type">Type:</label>
             </td><td>
             <div class="input">
-                <select name="phone" value="{{phone}}">
+                <select name="phone_type" value="{{phone}}">
                 <option value="primary">Primary</option>
                 <option value="fax">Fax</option>
                 <option value="secondary">Secondary</option>
@@ -143,8 +189,8 @@ document.getElementById('add').disabled=true;
             <label for="phone">Number:</label>
             </td><td>
             <div class="input">
-                <input type="text" name="phone" value="{{phone}}" />
-                <a href="#" onclick="addPhone()" id="add">Add phone</a>
+                <input type="text" name="phone_number" value="{{phone}}" />
+                <a href="#" onclick="addPhone()" id="add_phone">Add phone</a>
             </div>
 
             </td>
@@ -158,7 +204,7 @@ document.getElementById('add').disabled=true;
             <label for="name">Email:</label>
             </td><td>
             <div class="input">
-                <input type="text" name="email" value="{{city}}" />
+                <input type="text" name="email" value="{{email}}" />
             </div>
             </td>
         </tr>
@@ -168,10 +214,82 @@ document.getElementById('add').disabled=true;
             <label for="name">Website:</label>
             </td><td>
             <div class="input">
-                <input type="text" name="website" value="{{city}}" />
+                <input type="text" name="website" value="{{website}}" />
             </div>
             </td>
         </tr>
+        </table>
+
+        <div id="language">
+        <table>
+        <tr>
+            <td>
+            <label for="type">Language:</label>
+            </td><td>
+            <div class="input">
+                <select name="language" value="{{language}}">
+                <option value="English">English</option>
+                <option value="French">French</option>
+                <option value="Russian">Russian</option>
+                <option value="Cantonese">Cantonese</option>
+                <option value="Ukrainian">Ukrainian</option>
+                <option value="Hebrew">Hebrew</option>
+                <option value="German">German</option>
+                <option value="Farsi">Farsi</option>
+                <option value="Italian">Italian</option>
+                </select>
+                <a href="#" onclick="addLanguage()" id="add_lang">Add language</a>
+            </div>
+            </td>
+        </tr>
+        </table>
+        </div>
+
+        <table border="0" width="400px">
+        <tr>
+            <td>
+               <label for="type">Brands Serviced:</label>
+            </td><td>
+               <div class="input">
+                <select id="select_brand" name="brand" value="{{brand}}">
+                {% for car in car_brands %}
+                <option value="{{ car }}">{{ car }}</option>
+                {% endfor %}
+                </select>
+                 <a href="#" onclick="addBrand()" id="add_brand">Add</a>
+            </div>
+            </td>
+        </tr>
+        </table>
+
+             <div class="input">
+                <textarea id="brnds" name="brands" rows="3" cols="40">{{brands}}</textarea>
+            </div>
+
+    <table border="0" width="400px">
+        <tr>
+            <td>
+               <label for="type">Payment Method:</label>
+            </td><td>
+               <div class="input">
+                <select id="select_payment" name="payment" value="{{language}}">
+                <option value="Visa">Visa</option>
+                <option value="Amex">American Express</option>
+                <option value="Debit">Debit</option>
+                <option value="Cheques">Cheques</option>
+                <option value="Cash">Cash</option>
+                </select>
+                 <a href="#" onclick="addPayment()" id="add_payment">Add</a>
+            </div>
+            </td>
+        </tr>
+        </table>
+
+             <div class="input">
+                <textarea id="pymnt" name="payment" rows="3" cols="40">{{payment}}</textarea>
+            </div>
+
+        <table>
         <tr>
             <td>
 
@@ -179,7 +297,6 @@ document.getElementById('add').disabled=true;
 
             </td>
         </tr>
-
         <tr>
             <td>
 
@@ -189,6 +306,7 @@ document.getElementById('add').disabled=true;
         </tr>
 
        </table>
+    <input type="submit" value="Add Business">
     </form>
 
 </body>
