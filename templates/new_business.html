@@ -70,12 +70,7 @@ function addBrand() {
         {document.getElementById('brnds').value = document.getElementById('brnds').value+','+document.getElementById('select_brand').value;}
 }
 
-function addPayment() {
-    if(document.getElementById('pymnt').value == '')
-        {document.getElementById('pymnt').value = document.getElementById('select_payment').value;}
-    else
-        {document.getElementById('pymnt').value = document.getElementById('pymnt').value+','+document.getElementById('select_payment').value;}
-}
+
 </script>
 
 </head>
@@ -85,7 +80,7 @@ function addPayment() {
 
 <h3>Add New Business</h3>
 
-    <form action="/new_business" method="post">
+    <form action="/admin/add_business" method="post">
         <input type="hidden" name="category" value="books" />
 
        <table border="0" width="400px">
@@ -176,7 +171,7 @@ function addPayment() {
             <label for="type">Type:</label>
             </td><td>
             <div class="input">
-                <select name="phone_type" value="{{phone}}">
+                <select name="phone_type1" value="{{phone}}">
                 <option value="primary">Primary</option>
                 <option value="fax">Fax</option>
                 <option value="secondary">Secondary</option>
@@ -189,7 +184,7 @@ function addPayment() {
             <label for="phone">Number:</label>
             </td><td>
             <div class="input">
-                <input type="text" name="phone_number" value="{{phone}}" />
+                <input type="text" name="phone_number1" value="{{phone}}" />
                 <a href="#" onclick="addPhone()" id="add_phone">Add phone</a>
             </div>
 
@@ -227,7 +222,7 @@ function addPayment() {
             <label for="type">Language:</label>
             </td><td>
             <div class="input">
-                <select name="language" value="{{language}}">
+                <select name="language1" value="{{language}}">
                 <option value="English">English</option>
                 <option value="French">French</option>
                 <option value="Russian">Russian</option>
@@ -272,22 +267,15 @@ function addPayment() {
                <label for="type">Payment Method:</label>
             </td><td>
                <div class="input">
-                <select id="select_payment" name="payment" value="{{language}}">
-                <option value="Visa">Visa</option>
-                <option value="Amex">American Express</option>
-                <option value="Debit">Debit</option>
-                <option value="Cheques">Cheques</option>
-                <option value="Cash">Cash</option>
-                </select>
-                 <a href="#" onclick="addPayment()" id="add_payment">Add</a>
+                <input type="checkbox" name="payment" value="Visa">Visa<br>
+                <input type="checkbox" name="payment" value="Amex">American Express<br>
+                <input type="checkbox" name="payment" value="Debit">Debit<br>
+                <input type="checkbox" name="payment" value="Cheques">Cheques<br>
+                <input type="checkbox" name="payment" value="Cash">Cash<br>
             </div>
             </td>
         </tr>
         </table>
-
-             <div class="input">
-                <textarea id="pymnt" name="payment" rows="3" cols="40">{{payment}}</textarea>
-            </div>
 
         <table>
         <tr>

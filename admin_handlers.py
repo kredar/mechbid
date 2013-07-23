@@ -26,7 +26,6 @@ from google.appengine.api import search
 
 car_brands = ["Acura","Aston Martin","Audi","Bentley","BMW","Buick","Cadillac","Chevrolet","Chrysler","Dodge","Ferrari","Fiat","Ford","GMC","Honda","Hyundai","Infiniti","Jaguar","Jeep","Kia","Lamborghini","Land Rover","Lexus","Lincoln","Lotus","Maserati","Maybach","Mazda","Mercedes-Benz","MINI","Mitsubishi","Nissan","Porsche","Ram","Rolls-Royce","Scion","smart","Subaru","Suzuki","Toyota","Volkswagen","Volvo"]
 
-
 def reinitAll(sample_data=True):
     """
     Deletes all product entities and documents, essentially resetting the app
@@ -151,23 +150,32 @@ class CreateBusinessHandler(BaseHandler):
         self.render("new_business.html", car_brands=car_brands)
 
     def post(self):
-        name = self.request.get('name')
-        description = self.request.get('description')
-        address = self.request.get('address')
-
-
-
         params = {
             'pid': uuid.uuid4().hex, # auto-generate default UID
-            'name': name,
-            'description': description,
-            'location': '',
-            'address': address}
+            'name': self.request.get('name'),
+            'street': self.request.get('street'),
+            'city': self.request.get('city'),
+            'pcode': self.request.get('pcode'),
+            'province': self.request.get('province'),
+            'phone_type': self.request.get('phone_type1'),
+            'phone_number': self.request.get('phone_number1'),
+            'email': self.request.get('email'),
+            'website': self.request.get('website')}
 
-        BaseDocumentManager.create_document(name=name, description=description, address=address)
+        #BaseDocumentManager.create_document(name=name, description=description, address=address)
 
-        Business.create(params, params['pid'])
+        #Business.create(params, params['pid'])
+
+        #self.redirect('/admin/manage')
+
+        #testing  stuff here - pls ignore.
+        #Artyom
+
+        if self.request.get('phone_number2')=='':
+            x="0";
+        else:
+            x="1";
+
+        self.response.write("<h3>"+x+"</h3>")
 
 
-
-        self.redirect('/')
