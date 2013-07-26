@@ -15,7 +15,7 @@ class MainPageHandler(BaseHandler):
 
     def post(self):
         str_to_search = self.request.get('search')
-        location = self.request.get('location')
+
 
 
         #str_to_search = "second"

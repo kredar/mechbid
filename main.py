@@ -23,9 +23,9 @@ from handlers import *
 
 class MainHandler(BaseHandler):
     def get(self):
-        self.response.write(" <a href=\"/admin/manage\" > Admin Page</a>"
+        self.response.write(" <a href=\"/admin/manage\" > Admin Page aaa</a>"
                             "<br>"
-                            " <a href=\"search\" > Search</a>"
+                            " <a href=\"search\" > Search bbb</a>"
                             "<br>"
                             " <a href=\"signup\" > Signup</a>"
 
