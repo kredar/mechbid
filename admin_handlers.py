@@ -162,20 +162,20 @@ class CreateBusinessHandler(BaseHandler):
             'email': self.request.get('email'),
             'website': self.request.get('website')}
 
-        #BaseDocumentManager.create_document(name=name, description=description, address=address)
+        BaseDocumentManager.create_document(params=params)
 
         #Business.create(params, params['pid'])
 
-        #self.redirect('/admin/manage')
+        self.redirect('/admin/manage')
 
-        #testing  stuff here - pls ignore.
-        #Artyom
-
-        if self.request.get('phone_number2')=='':
-            x="0";
-        else:
-            x="1";
-
-        self.response.write("<h3>"+x+"</h3>")
-
-
+        # #testing  stuff here - pls ignore.
+        # #Artyom
+        #
+        # if self.request.get('phone_number2')=='':
+        #     x="0";
+        # else:
+        #     x="1";
+        #
+        # self.response.write("<h3>"+x+"</h3>")
+        #
+        #
