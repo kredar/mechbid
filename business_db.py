@@ -29,7 +29,7 @@ class WorkingHours(ndb.Model):
 
 
 class Business(ndb.Model):
-    id = ndb.IntegerProperty()
+    id = ndb.StringProperty()
     name = ndb.StringProperty(required=True)
     addresses = ndb.StructuredProperty(Address, required=True)
     phones = ndb.StructuredProperty(Phone, repeated = True)

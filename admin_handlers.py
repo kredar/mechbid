@@ -111,13 +111,22 @@ def importData():
     #         rows.append(row)
     # if rows:
     #     docs.Product.buildProductBatch(rows)
-    datafile = os.path.join('input_data', '1')
+    datafile = os.path.join('input_data', '')
     with open(datafile) as data_file:
         data = json.load(data_file)
 
     return data
     #self.write(pprint(data))
     #print json.load("/input_data/1")
+
+
+def OpenJson(file_name):
+
+    datafile = os.path.join('input_data', file_name)
+    with open(datafile) as data_file:
+        data = json.load(data_file)
+
+    return data
 
 
 class AdminHandler(BaseHandler):
@@ -127,11 +136,122 @@ class AdminHandler(BaseHandler):
 
 
 class ImportMechData(BaseHandler):
-    # TODO implement ImportMechData class
+
     # @BaseHandler.logged_in
+
     def get(self):
-        self.write("Under construction")
-        #self.write(importData())
+        json_doc = OpenJson('19003_A-1-Auto-Parts-Ltd.json')
+        another_json_doc = OpenJson('1185288_Pacific-Paving-Ltd.json')
+        #parse json
+
+        #website
+        try:
+            website = json_doc['products']['webUrl'][0]
+        except KeyError:
+            website='null'
+
+        # categories
+        categories = []
+        try:
+            for category in json_doc['categories']:
+                categories.append(category['name'])
+        except KeyError:
+            categories='null'
+
+        # phones
+        phones = []
+        try:
+            for phone in json_doc['phones']:
+                phone_dict = {'type': phone['type'], 'number': phone['dispNum']}
+                phones.append(phone_dict)
+        except KeyError:
+            phones='null'
+
+        # pay methods
+        pay_methods = []
+        try:
+            for pmethod in json_doc['products']['profiles'][0]['keywords']['MthdPmt']:
+                pay_methods.append(pmethod)
+        except KeyError:
+            pay_methods='null'
+
+        # spoken languages
+        lang_spk = []
+        try:
+            for lang in json_doc['products']['profiles'][0]['keywords']['LangSpk']:
+                lang_spk.append(lang)
+        except KeyError:
+            lang_spk='null'
+
+        # open hours
+        open_hours = []
+        try:
+            for day in json_doc['products']['profiles'][0]['keywords']['OpenHrs']:
+                open_hours.append(day)
+        except KeyError:
+            open_hours='null'
+
+        # products and services
+        products_services = []
+        try:
+            for prod_serv in json_doc['products']['profiles'][0]['keywords']['ProdServ']:
+               products_services.append(prod_serv)
+        except KeyError:
+            products_services='null'
+
+        # specials
+        specials = []
+        try:
+            for special in json_doc['products']['profiles'][0]['keywords']['Special']:
+                specials.append(special)
+        except KeyError:
+            specials='null'
+
+        # brands
+        brands = []
+        try:
+            for brand in json_doc['products']['profiles'][0]['keywords']['BrndCrrd']:
+                brands.append(brand)
+        except KeyError:
+            brands='ALL'
+
+        # teasers
+        teasers = []
+        try:
+            for teaser in json_doc['products']['profiles'][0]['keywords']['Teaser']:
+                teasers.append(teaser)
+        except KeyError:
+            teasers='null'
+
+        #BaseDocumentManager.create_document(name=name, description=description, address=address)
+
+        #Business.create(params, params['pid'])
+
+        #self.write(json.dumps(another_json_doc, sort_keys=True, indent=4))
+
+
+        #self.write(open_hours)
+
+        params = {
+            'pid': uuid.uuid4().hex, # auto-generate default UID
+            'name': json_doc['name'],
+            'street':  json_doc['address']['street'],
+            'city': json_doc['address']['city'],
+            'pcode': json_doc['address']['pcode'],
+            'province': json_doc['address']['prov'],
+            'email': '',
+            'website': website,
+            'geo_lat': json_doc['geoCode']['latitude'],
+            'geo_long': json_doc['geoCode']['longitude'],
+            'categories': categories,
+            'phones': phones,
+            'pay_methods': pay_methods,
+            'lang_spk': lang_spk,
+            'open_hours': open_hours,
+            'specials': specials,
+            'brands': brands,
+            'teasers': teasers,
+            'products_services': products_services}
 
 
 class DeleteMechHandler(BaseHandler):
@@ -142,6 +262,7 @@ class DeleteMechHandler(BaseHandler):
         self.write("Under construction")
 
 
+
 class CreateBusinessHandler(BaseHandler):
     """Handler to create a new business account with all the properties: this constitutes both a mech entity
     and its associated indexed document."""
@@ -150,6 +271,16 @@ class CreateBusinessHandler(BaseHandler):
         self.render("new_business.html", car_brands=car_brands)
 
     def post(self):
+
+        phones = {}
+        #Get all phones
+        phone_num = 1
+
+        while self.request.get('phone_number'+str(phone_num)) != '':
+            phones['type'+str(phone_num)] = self.request.get('phone_type'+str(phone_num))
+            phones['number'+str(phone_num)] = self.request.get('phone_number'+str(phone_num))
+            phone_num += 1
+
         params = {
             'pid': uuid.uuid4().hex, # auto-generate default UID
             'name': self.request.get('name'),
@@ -171,11 +302,7 @@ class CreateBusinessHandler(BaseHandler):
         #testing  stuff here - pls ignore.
         #Artyom
 
-        if self.request.get('phone_number2')=='':
-            x="0";
-        else:
-            x="1";
+        self.response.write("<h3>"+phones['number1']+"</h3><br><h3>"+phones['type2']+"</h3>")
 
-        self.response.write("<h3>"+x+"</h3>")
 
 
