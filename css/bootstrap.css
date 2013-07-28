@@ -4059,6 +4059,7 @@ input[type="submit"].btn.btn-mini {
 
 .nav-tabs {
   border-bottom: 1px solid #ddd;
+  margin-bottom: 0;
 }
 
 .nav-tabs > li {
@@ -4244,6 +4245,9 @@ input[type="submit"].btn.btn-mini {
 
 .tab-content {
   overflow: auto;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 
 .tabs-below > .nav-tabs,

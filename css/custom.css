@@ -65,3 +65,7 @@
 .search-result.last {
 	border-bottom: none;
 }
+
+.tab-content {
+	padding-top:10px;
+}
