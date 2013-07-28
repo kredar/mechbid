@@ -223,7 +223,7 @@ class ImportMechData(BaseHandler):
         except KeyError:
             teasers='null'
 
-        #self.write(json.dumps(another_json_doc, sort_keys=True, indent=4))
+        #self.write(json.dumps(json_doc, sort_keys=True, indent=4))
 
         #self.write(open_hours)
 
@@ -248,8 +248,9 @@ class ImportMechData(BaseHandler):
             'teasers': teasers,
             'products_services': products_services}
 
+        #self.write(params['phones'][0]['type'])
         #BaseDocumentManager.create_document(name=name, description=description, address=address)
-        #Business.create(params, params['pid'])
+        Business.create(params, params['pid'])
 
 
 class DeleteMechHandler(BaseHandler):
