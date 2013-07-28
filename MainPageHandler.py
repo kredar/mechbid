@@ -29,6 +29,7 @@ class MainPageHandler(BaseHandler):
         #self.write(results)
         if results:
             self.render("results.html", results=results)
+
         #
         #     for doc in results:
         #         # logging.info("doc: %s ", doc)

@@ -26,11 +26,15 @@ class BaseDocumentManager():
     def create_document(cls, params):
     #name, description, address):
 
+        address = params['street'] + ", " + params['city'] + ", " + params['pcode']
         """ Creates doc for specific mechanic """
         document = search.Document(
             fields=[search.TextField(name='name', value=params['name']),
-                    search.TextField(name='description', value=params['description']),
-                    search.TextField(name='address', value=params['address']),
+                    search.TextField(name='address', value=address),
+                    search.TextField(name='street', value=params['street']),
+                    search.TextField(name='city', value=params['city']),
+                    search.TextField(name='pcode', value=params['pcode']),
+                    search.TextField(name='website', value=params['website']),
                     search.DateField(name='date', value=datetime.now().date())])
 
 
