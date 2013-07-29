@@ -1,150 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>MechBid</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
+    <meta charset="utf-8">
+    <title>MechBid</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-<!-- Styles -->
-<link href="../css/bootstrap.css" rel="stylesheet">
-<style type="text/css">
-body {
-	padding-top: 60px;
-	padding-bottom: 40px;
-}
-</style>
-<link href="../css/bootstrap-responsive.css" rel="stylesheet">
-<link href="../css/custom.css" rel="stylesheet">
+    <!-- Styles -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <link href="../css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
 
-<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
       <script src="../js/html5shiv.js"></script>
     <![endif]-->
 
-<!-- Fav and touch icons -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="../ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed" href="../ico/apple-touch-icon-57-precomposed.png">
-<link rel="shortcut icon" href="../ico/favicon.png">
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../ico/favicon.png">
+
+
+    <!-- start: put map per: http://www.w3schools.com/googleAPI/tryit.asp?filename=tryhtml_map_async -->
+    <script>
+
+        function log(msg) {
+            setTimeout(function () {
+                throw new Error(msg);
+            }, 0);
+        }
+        //temporary method to extract the coordinates fro the returned result
+        function getLatitude(geoPointStr) {
+            var position = geoPointStr.indexOf('latitude=');
+            return geoPointStr.substr(position + 9, 8)
+        }
+        //temporary method to extract the coordinates fro the returned result
+        function getLongitude(geoPointStr) {
+            var position = geoPointStr.indexOf('longitude=');
+            return geoPointStr.substr(position + 10, 8)
+        }
+
+        var marker;
+        function initialize() {
+
+            var mapProp = {
+                center: new google.maps.LatLng(43.6481, -79.4042),
+                zoom: 10,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+
+            //ALEXK auto-generate the pointers on the map
+            {% for doc in results%}
+                geoPointStr = '{{ doc.field('location').value}}';
+                //log(geoPointStr);
+                markLat = getLatitude(geoPointStr);
+                //log(markLat);
+                markLon = getLongitude(geoPointStr);
+                //log(markLon);
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(markLat, markLon),
+                    animation: google.maps.Animation.DROP,
+                    icon: 'http://google-maps-icons.googlecode.com/files/carrepair.png',
+                    title: 'Garage Named: {{ doc.field('name').value}}, vizit us, o drugi !!!'
+                });
+                marker.setMap(map);
+            {% endfor %}
+
+            //specify on map the user current location
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(43.6481, -79.4042),
+                icon: 'http://labs.google.com/ridefinder/images/mm_20_green.png',
+                animation: google.maps.Animation.BOUNCE,
+                title: 'Here you are, bastard!'
+            });
+            marker.setMap(map);
+        }
+
+
+        function loadScript() {
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false&callback=initialize";
+            document.body.appendChild(script);
+        }
+
+
+        window.onload = loadScript;
+    </script>
+    <!-- end: put map per: http://www.w3schools.com/googleAPI/tryit.asp?filename=tryhtml_map_async -->
+
+
 </head>
 
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container">
-      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-      <a class="brand" href="#">MechBid</a>
-      <div class="nav-collapse collapse">
-        <ul class="nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li class="divider"></li>
-              <li class="nav-header">Nav header</li>
-              <li><a href="#">Separated link</a></li>
-              <li><a href="#">One more separated link</a></li>
-            </ul>
-          </li>
-        </ul>
-        <form class="navbar-form pull-right">
-          <input class="span2" type="text" placeholder="Email">
-          <input class="span2" type="password" placeholder="Password">
-          <button type="submit" class="btn">Sign in</button>
-        </form>
-      </div>
-      <!--/.nav-collapse --> 
-    </div>
-  </div>
-</div>
-<div class="container"> 
-  
-  <!-- Example row of columns -->
-  <div class="row">
-    <div class="span12 main-search-header"><span class="breadcrumb">Find a Shop &raquo; Toronto M4V 1J7 &raquo; Ford Repair and Service</span>
-      <div class="row">
-        <div class="span9 main-search-results">
-          <div class="">
-            <h2>Search Results for Ford near M4V 1J7</h2>
-            <p>Shops displaying the MechBid logo have passed MechBid's rigorous screening and customer interview process, and guarantee fair prices. <a href="#">Learn more &raquo;</a></p>
-          </div>
-          <hr>
-
-            {% for doc in results%}
-                <div class="search-result">
-            <h3><a href="#">{{doc.field('name').value}}</a></h3>
-
-              <ul>
-                  <li>Distance from M4V 1J7 &#8211; 1.0 km</li>
-
-              <li>{{ doc.field('address').value}}</li>
-              </ul>
-          </div>
-
-            {% endfor %}
-          <!--<div class="search-result">-->
-            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
-            <!--<ul>-->
-              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
-              <!--<li>416-123-4567</li>-->
-              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
-              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
-            <!--</ul>-->
-          <!--</div>-->
-          <!--<div class="search-result">-->
-            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
-            <!--<ul>-->
-              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
-              <!--<li>416-123-4567</li>-->
-              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
-              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
-            <!--</ul>-->
-          <!--</div>-->
-          <!--<div class="search-result">-->
-            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
-            <!--<ul>-->
-              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
-              <!--<li>416-123-4567</li>-->
-              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
-              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
-            <!--</ul>-->
-          <!--</div>-->
-          <!--<div class="search-result last">-->
-            <!--<h3><a href="#">Repair Shop Name</a></h3>-->
-            <!--<ul>-->
-              <!--<li>Distance from M4V 1J7 &#8211; 1.0 km</li>-->
-              <!--<li>416-123-4567</li>-->
-              <!--<li>40 Yonge St, Toronto, ON M4V 1Y5</li>-->
-              <!--<li>Specialized in: Category 1, Category 2, Category 3</li>-->
-            <!--</ul>-->
-          <!--</div>-->
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+            <a class="brand" href="#">MechBid</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Santa would do it!</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Nav header</li>
+                            <li><a href="#">Separated link</a></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form pull-right">
+                    <input class="span2" type="text" placeholder="Email">
+                    <input class="span2" type="password" placeholder="Password">
+                    <button type="submit" class="btn">Sign in</button>
+                </form>
+            </div>
+            <!--/.nav-collapse -->
         </div>
-        <div class="span3 sec-search-results">
-          <div class="map-results">
-            <iframe width="270" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=AML+Auto+Service,+Laird+Drive,+Toronto,+ON,+Canada&amp;aq=0&amp;oq=AML+Auto+Service&amp;sll=43.697169,-79.377594&amp;sspn=0.218187,0.528374&amp;ie=UTF8&amp;hq=AML+Auto+Service,&amp;hnear=Laird+Dr,+Toronto,+Ontario,+Canada&amp;t=m&amp;ll=43.707423,-79.362509&amp;spn=0.004653,0.006437&amp;z=16&amp;iwloc=A&amp;output=embed"></iframe>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-  <hr>
-  <footer>
-    <p>&copy; MechBid 2013</p>
-  </footer>
 </div>
-<!-- /container --> 
+<div class="container">
+
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="span12 main-search-header"><span class="breadcrumb">Find a Shop &raquo; Toronto M4V 1J7 &raquo; Ford Repair and Service</span>
+            <div class="row">
+                <div class="span9 main-search-results">
+                    <div class="">
+                        <h2>Search Results for Ford near M4V 1J7</h2>
+                        <p>Shops displaying the MechBid logo have passed MechBid's rigorous screening and customer interview process, and guarantee fair prices. <a href="#">Hapes ba tahat &raquo;</a></p>
+                    </div>
+                    <hr>
+                    <!--here comes the list of the results;   changed by ALEXK-->
+                    {% for doc in results%}
+                        <div class="search-result">
+                            <h3><a href="#">Repair Shop Named:  {{ doc.field('name').value}} </a></h3>
+                            <ul>
+                                <li>By proximity to Nathan Philip Square  &#8211; SORTED</li>
+                                <li>Address is: {{ doc.field('address').value}}</li>
+                                <li>Located on position: {{ doc.field('location').value}}</li>
+                                {# <li> Latitude is <script>getLatitude('{{ doc.field('location').value}}') </script></li>#}
+                            </ul>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                <div class="span3 sec-search-results">
+
+                    <div id="googleMap" style="width:200pt;height:300pt;"></div>
+                    {#  vadik's code      <div class="map-results">#}
+                    {#                <iframe width="270" height="300" frameborder="0" scrolling="ye" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=AML+Auto+Service,+Laird+Drive,+Toronto,+ON,+Canada&amp;aq=0&amp;oq=AML+Auto+Service&amp;sll=43.697169,-79.377594&amp;sspn=0.218187,0.528374&amp;ie=UTF8&amp;hq=AML+Auto+Service,&amp;hnear=Laird+Dr,+Toronto,+Ontario,+Canada&amp;t=m&amp;ll=43.707423,-79.362509&amp;spn=0.004653,0.006437&amp;z=16&amp;iwloc=A&amp;output=embed"></iframe>#}
+                    {#        </div>#}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <footer>
+        <p>&copy; MechBid 2013</p>
+    </footer>
+</div>
+<!-- /container -->
 
 <!-- Javascript
-    ================================================== --> 
-<!-- Placed at the end of the document so the pages load faster --> 
-<script src="../js/jquery.js"></script> 
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery.js"></script>
 <script src="../js/bootstrap.js"></script>
 </body>
 </html>
