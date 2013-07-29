@@ -290,18 +290,19 @@ class CreateBusinessHandler(BaseHandler):
             'phone_type': self.request.get('phone_type1'),
             'phone_number': self.request.get('phone_number1'),
             'email': self.request.get('email'),
-            'website': self.request.get('website')}
+            'website': self.request.get('website'),
+            'location': self.request.get('location')}
 
-        #BaseDocumentManager.create_document(name=name, description=description, address=address)
-
+        # BaseDocumentManager.create_document(name=name, description=description, address=address)
+        BaseDocumentManager.create_document(params=params)
         #Business.create(params, params['pid'])
 
-        #self.redirect('/admin/manage')
+        self.redirect('/admin/manage')
 
         #testing  stuff here - pls ignore.
         #Artyom
 
-        self.response.write("<h3>"+phones['number1']+"</h3><br><h3>"+phones['type2']+"</h3>")
+        #self.response.write("<h3>"+phones['number1']+"</h3><br><h3>"+phones['type2']+"</h3>")
 
 
 

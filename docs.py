@@ -28,7 +28,7 @@ class BaseDocumentManager():
 	
 
         # ALEXK split the location into pair of coordinates and
-        coordinatesPair = tuple(location.split(','))
+        coordinatesPair = tuple(params['location'].split(','))
         businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
         businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
         geopoint = search.GeoPoint(businessLatitude, businessLongitude)
@@ -102,7 +102,6 @@ class BaseDocumentManager():
     @classmethod
     def find_documents(cls, query_string, limit, cursor):
         try:
-
             # Nathan Philip Square (addr., lat, long)
             # 100 Queen St W, Toronto, ON
             # 43.6519186
@@ -110,15 +109,12 @@ class BaseDocumentManager():
             exampleLat=float(43.6519186)
             exampleLon=float(-79.3824024)
             loc_expr = 'distance(location, geopoint(%s, %s))' % (exampleLat, exampleLon)
+
+            ##expression='name',
             subject_desc = search.SortExpression(
 				expression=loc_expr,
-                #expression='name',
-                #direction=search.SortExpression.DESCENDING,
                 direction=search.SortExpression.ASCENDING,
                 default_value='')
-
-
-
 
             # Sort up to 1000 matching results by subject in descending order
             sort = search.SortOptions(expressions=[subject_desc], limit=1000)
@@ -128,7 +124,7 @@ class BaseDocumentManager():
                 limit=limit, # the number of results to return
                 cursor=cursor,
                 sort_options=sort,
-                returned_fields=['name', 'address', 'description','location'],
+                returned_fields=['name', 'address','location'],
                 snippeted_fields=['content'])
 
 				#ALEXK added location example here, remove if all works
