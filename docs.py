@@ -24,8 +24,17 @@ class BaseDocumentManager():
 
     @classmethod
     def create_document(cls, params):
-    #name, description, address):
+    #name, description, address):  - old definition - remove if all works
+	
 
+        # ALEXK split the location into pair of coordinates and
+        coordinatesPair = tuple(location.split(','))
+        businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
+        businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
+        geopoint = search.GeoPoint(businessLatitude, businessLongitude)
+
+
+		#construct the address from the separated fields
         address = params['street'] + ", " + params['city'] + ", " + params['pcode']
         """ Creates doc for specific mechanic """
         document = search.Document(
@@ -35,7 +44,9 @@ class BaseDocumentManager():
                     search.TextField(name='city', value=params['city']),
                     search.TextField(name='pcode', value=params['pcode']),
                     search.TextField(name='website', value=params['website']),
-                    search.DateField(name='date', value=datetime.now().date())])
+                    search.DateField(name='date', value=datetime.now().date()),
+					search.GeoField(name='location', value=geopoint)
+					])
 
 
         try:
@@ -91,8 +102,17 @@ class BaseDocumentManager():
     @classmethod
     def find_documents(cls, query_string, limit, cursor):
         try:
+
+            # Nathan Philip Square (addr., lat, long)
+            # 100 Queen St W, Toronto, ON
+            # 43.6519186
+            # -79.3824024
+            exampleLat=float(43.6519186)
+            exampleLon=float(-79.3824024)
+            loc_expr = 'distance(location, geopoint(%s, %s))' % (exampleLat, exampleLon)
             subject_desc = search.SortExpression(
-                expression='name',
+				expression=loc_expr,
+                #expression='name',
                 #direction=search.SortExpression.DESCENDING,
                 direction=search.SortExpression.ASCENDING,
                 default_value='')
@@ -108,8 +128,11 @@ class BaseDocumentManager():
                 limit=limit, # the number of results to return
                 cursor=cursor,
                 sort_options=sort,
-                returned_fields=['name', 'address', 'description'],
+                returned_fields=['name', 'address', 'description','location'],
                 snippeted_fields=['content'])
+
+				#ALEXK added location example here, remove if all works
+                # query = "distance(store_location, geopoint(-33.857, 151.215)) < 4500"
 
             query = search.Query(query_string=query_string, options=options)
 
