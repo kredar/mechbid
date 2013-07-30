@@ -71,35 +71,10 @@ function addBrand() {
         {document.getElementById('brnds').value = document.getElementById('brnds').value+','+document.getElementById('select_brand').value;}
 }
 
-//ALEXK below code is working and generating the correct geocode values
-var geocoder = new google.maps.Geocoder();
-var resolvedLocation;
-
-function fetchLocation() {
-    var address =   document.getElementById('street').value + ', '
-                    + document.getElementById('city').value + ', '
-                    + document.getElementById('province').value;
-
-    alert('fetching coordinates for address : ' + address);
-
-    geocoder.geocode({ 'address': address}, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            alert('Geocode generated: ' + results[0].geometry.location);
-            document.getElementById('location').value = results[0].geometry.location;
-            resolvedLocation = results[0].geometry.location;
-        } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-        }
-    });
-    document.getElementById('location').value = resolvedLocation;
-    // for some reason this piece jumps in execution before the call to geocoder.geocode (...)
-    //alert('value of resolvedLocation is : ' + resolvedLocation);
-    //alert('value of location is : ' + document.getElementById('location').value);
-}
-
-
-
 </script>
+
+<!-- includes the script that implements the geolocation services of GOOGLE MAPS API-->
+<script src="../js/location_services.js"></script>
 
 </head>
 
