@@ -29,7 +29,7 @@ body {
         {
             var userLocation = new google.maps.LatLng(); //variable for position
             userLocation = getUserLocation();
-            //alert ('outside the method Identified Location is: ' + userLocation.toString()); 
+            //alert ('outside the method Identified Location is: ' + userLocation.toString());
             document.getElementById("userCurrPosition").value = userLocation.toString();
         }
         window.onload = defineUserLocation();

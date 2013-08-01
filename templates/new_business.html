@@ -71,6 +71,17 @@ function addBrand() {
         {document.getElementById('brnds').value = document.getElementById('brnds').value+','+document.getElementById('select_brand').value;}
 }
 
+function validateForm() {
+    if (document.getElementById('location').value == '') {
+        alert('Location of the business cannot be identified. \n' +
+                'Address fields are not filled or not pointing to valid location.\n\n' +
+                'Please validate the address (Street/City) and try again.');
+        return false;
+    }
+
+   }
+
+
 </script>
 
 <!-- includes the script that implements the geolocation services of GOOGLE MAPS API-->
@@ -83,7 +94,7 @@ function addBrand() {
 
 <h3>Add New Business</h3>
 
-    <form action="/admin/add_business" method="post">
+    <form action="/admin/add_business" method="post" onsubmit="return validateForm()">
         <input type="hidden" name="category" value="books" />
 
        <table border="0" width="400px">
@@ -121,7 +132,7 @@ function addBrand() {
             <label for="name">City:</label>
             </td><td>
             <div class="input">
-                <input type="text" name="city" id="city" value="{{city}}" />
+                <input type="text" name="city" id="city" value="{{city}}" onblur="fetchLocation()" />
             </div>
             </td>
         </tr>
@@ -155,7 +166,7 @@ function addBrand() {
                <label for="name">Postal Code:</label>
             </td><td>
             <div class="input">
-                <input type="text" name="pcode" id="pcode" value="{{pcode}}" onblur="fetchLocation()"/>
+                <input type="text" name="pcode" id="pcode" value="{{pcode}}"/>
             </div>
             </td>
         </tr>

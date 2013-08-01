@@ -17,7 +17,7 @@ function fetchLocation() {
         + document.getElementById('province').value;
 
     alert('fetching coordinates for address : ' + address);
-
+    //based on sample from https://developers.google.com/maps/documentation/javascript/examples/geocoding-simple
     geocoder.geocode({ 'address': address}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             alert('Geocode generated: ' + results[0].geometry.location);

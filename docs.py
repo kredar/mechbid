@@ -25,14 +25,19 @@ class BaseDocumentManager():
     @classmethod
     def create_document(cls, params):
     #name, description, address):  - old definition - remove if all works
-	
 
-        # ALEXK split the location into pair of coordinates and
-        coordinatesPair = tuple(params['location'].split(','))
-        businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
-        businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
+        # ALEXK split the location into pair of coordinates and create the geopoint
+        # TODO make more proper handling of the undefined location (maybe block in GUI or not add to the document)
+        if params['location'] == "" or params['location'] == "undefined":
+            logging.info("location as not defined as search criteria, setting to Toronto")
+            businessLatitude = float(43.6519186) # this is a temporry solution since such case must be blocked in GUI
+            businessLongitude = float(-79.3824024)
+        else:
+            coordinatesPair = tuple(params['location'].split(','))
+            businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
+            businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
+
         geopoint = search.GeoPoint(businessLatitude, businessLongitude)
-
 
 		#construct the address from the separated fields
         address = params['street'] + ", " + params['city'] + ", " + params['pcode']
