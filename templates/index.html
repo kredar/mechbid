@@ -22,7 +22,18 @@ body {
 <!--[if lt IE 9]>
       <script src="../js/html5shiv.js"></script>
     <![endif]-->
-
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <script src="../js/location_services.js"></script>
+    <script language="javascript">
+        function defineUserLocation()
+        {
+            var userLocation = new google.maps.LatLng(); //variable for position
+            userLocation = getUserLocation();
+            //alert ('outside the method Identified Location is: ' + userLocation.toString());
+            document.getElementById("userCurrPosition").value = userLocation.toString();
+        }
+        window.onload = defineUserLocation();
+    </script>
 <!-- Fav and touch icons -->
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../ico/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../ico/apple-touch-icon-114-precomposed.png">
@@ -148,6 +159,7 @@ body {
 <hr>
 <footer>
   <p>&copy; MechBid 2013</p>
+    Your location:<input type="text" id="userCurrPosition" disabled="true"><!--this is for test purposes , to be removed-->
 </footer>
 </div>
 <!-- /container --> 

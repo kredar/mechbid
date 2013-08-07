@@ -39,7 +39,6 @@ class SearchHandler(BaseHandler):
 
 
 
-
     # def find_documents(self, query_string, limit, cursor):
     #
     #     try:

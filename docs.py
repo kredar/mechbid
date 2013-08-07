@@ -24,8 +24,22 @@ class BaseDocumentManager():
 
     @classmethod
     def create_document(cls, params):
-    #name, description, address):
+    #name, description, address):  - old definition - remove if all works
 
+        # ALEXK split the location into pair of coordinates and create the geopoint
+        # TODO make more proper handling of the undefined location (maybe block in GUI or not add to the document)
+        if params['location'] == "" or params['location'] == "undefined":
+            logging.info("location as not defined as search criteria, setting to Toronto")
+            businessLatitude = float(43.6519186) # this is a temporry solution since such case must be blocked in GUI
+            businessLongitude = float(-79.3824024)
+        else:
+            coordinatesPair = tuple(params['location'].split(','))
+            businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
+            businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
+
+        geopoint = search.GeoPoint(businessLatitude, businessLongitude)
+
+		#construct the address from the separated fields
         address = params['street'] + ", " + params['city'] + ", " + params['pcode']
         """ Creates doc for specific mechanic """
         document = search.Document(
@@ -35,7 +49,9 @@ class BaseDocumentManager():
                     search.TextField(name='city', value=params['city']),
                     search.TextField(name='pcode', value=params['pcode']),
                     search.TextField(name='website', value=params['website']),
-                    search.DateField(name='date', value=datetime.now().date())])
+                    search.DateField(name='date', value=datetime.now().date()),
+					search.GeoField(name='location', value=geopoint)
+					])
 
 
         try:
@@ -91,14 +107,19 @@ class BaseDocumentManager():
     @classmethod
     def find_documents(cls, query_string, limit, cursor):
         try:
+            # Nathan Philip Square (addr., lat, long)
+            # 100 Queen St W, Toronto, ON
+            # 43.6519186
+            # -79.3824024
+            exampleLat=float(43.6519186)
+            exampleLon=float(-79.3824024)
+            loc_expr = 'distance(location, geopoint(%s, %s))' % (exampleLat, exampleLon)
+
+            ##expression='name',
             subject_desc = search.SortExpression(
-                expression='name',
-                #direction=search.SortExpression.DESCENDING,
+				expression=loc_expr,
                 direction=search.SortExpression.ASCENDING,
                 default_value='')
-
-
-
 
             # Sort up to 1000 matching results by subject in descending order
             sort = search.SortOptions(expressions=[subject_desc], limit=1000)
@@ -108,8 +129,11 @@ class BaseDocumentManager():
                 limit=limit, # the number of results to return
                 cursor=cursor,
                 sort_options=sort,
-                returned_fields=['name', 'address', 'description'],
+                returned_fields=['name', 'address','location'],
                 snippeted_fields=['content'])
+
+				#ALEXK added location example here, remove if all works
+                # query = "distance(store_location, geopoint(-33.857, 151.215)) < 4500"
 
             query = search.Query(query_string=query_string, options=options)
 

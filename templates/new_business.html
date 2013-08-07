@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Add New Business</title>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 <script language="javascript">
 phones = 1;
 lang = 1;
@@ -70,8 +71,21 @@ function addBrand() {
         {document.getElementById('brnds').value = document.getElementById('brnds').value+','+document.getElementById('select_brand').value;}
 }
 
+function validateForm() {
+    if (document.getElementById('location').value == '') {
+        alert('Location of the business cannot be identified. \n' +
+                'Address fields are not filled or not pointing to valid location.\n\n' +
+                'Please validate the address (Street/City) and try again.');
+        return false;
+    }
+
+   }
+
 
 </script>
+
+<!-- includes the script that implements the geolocation services of GOOGLE MAPS API-->
+<script src="../js/location_services.js"></script>
 
 </head>
 
@@ -80,7 +94,7 @@ function addBrand() {
 
 <h3>Add New Business</h3>
 
-    <form action="/admin/add_business" method="post">
+    <form action="/admin/add_business" method="post" onsubmit="return validateForm()">
         <input type="hidden" name="category" value="books" />
 
        <table border="0" width="400px">
@@ -107,7 +121,8 @@ function addBrand() {
             <label for="name">Street:</label>
             </td><td>
             <div class="input">
-                <input type="text" name="street" value="{{street}}" />
+                <input type="hidden" name="location" id="location"/> <!--ask Vadik where is better place to put it-->
+                <input type="text" name="street" id="street" value="{{street}}" />
             </div>
             </td>
         </tr>
@@ -117,7 +132,7 @@ function addBrand() {
             <label for="name">City:</label>
             </td><td>
             <div class="input">
-                <input type="text" name="city" value="{{city}}" />
+                <input type="text" name="city" id="city" value="{{city}}" onblur="fetchLocation()" />
             </div>
             </td>
         </tr>
@@ -127,14 +142,14 @@ function addBrand() {
             <label for="name">Province:</label>
             </td><td>
             <div class="input">
-                <select name="province" value="{{province}}">
+                <select name="province" id="province" value="{{province}}">
                 <option value="AB">Alberta</option>
                 <option value="BC">British Columbia</option>
                 <option value="MB">Manitoba</option>
                 <option value="NB">New Brunswick</option>
                 <option value="NL">Newfoundland and Labrador</option>
                 <option value="NS">Nova Scotia</option>
-                <option value="ON">Ontario</option>
+                <option value="ON" selected>Ontario</option>
                 <option value="PE">Prince Edward Island</option>
                 <option value="QC">Quebec</option>
                 <option value="SK">Saskatchewan</option>
@@ -151,7 +166,7 @@ function addBrand() {
                <label for="name">Postal Code:</label>
             </td><td>
             <div class="input">
-                <input type="text" name="pcode" value="{{pcode}}" />
+                <input type="text" name="pcode" id="pcode" value="{{pcode}}"/>
             </div>
             </td>
         </tr>
@@ -168,7 +183,7 @@ function addBrand() {
         <table>
         <tr>
             <td>
-            <label for="type">Type:</label>
+            <label for="type">Phone Type:</label>
             </td><td>
             <div class="input">
                 <select name="phone_type1" value="{{phone}}">
@@ -181,7 +196,7 @@ function addBrand() {
         </tr>
         <tr>
             <td>
-            <label for="phone">Number:</label>
+            <label for="phone">Phone Number:</label>
             </td><td>
             <div class="input">
                 <input type="text" name="phone_number1" value="{{phone}}" />
