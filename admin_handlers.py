@@ -243,9 +243,10 @@ def ImportNewBusiness(file_name, dir_name):
 
         #self.write(params['phones'][0]['type'])
 
-        #BaseDocumentManager.create_document(name=name, description=description, address=address)
+
 
         if Business.create(params, params['pid']) != 'null':
+            BaseDocumentManager.create_document(params)
             return 'Business '+json_doc['name']+' successfully created'
 
         return 'ERROR creating '+json_doc['name']+' business!'
