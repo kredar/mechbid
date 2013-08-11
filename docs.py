@@ -24,8 +24,6 @@ class BaseDocumentManager():
 
     @classmethod
     def create_document(cls, params):
-    #name, description, address):  - old definition - remove if all works
-
         # ALEXK split the location into pair of coordinates and create the geopoint
         # TODO make more proper handling of the undefined location (maybe block in GUI or not add to the document)
         if params['location'] == "" or params['location'] == "undefined":
