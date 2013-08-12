@@ -283,6 +283,7 @@ class CreateBusinessHandler(BaseHandler):
     """Handler to create a new business account with all the properties: this constitutes both a mech entity
     and its associated indexed document."""
 
+    #"Jenkins Test"
     def get(self):
         self.render("new_business.html", car_brands=car_brands)
 
