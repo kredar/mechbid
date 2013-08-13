@@ -27,12 +27,13 @@ body {
     <script language="javascript">
         function defineUserLocation()
         {
+            //document.getElementById("userCurrPosition").value = "test new";
             var userLocation = new google.maps.LatLng(); //variable for position
             userLocation = getUserLocation();
             //alert ('outside the method Identified Location is: ' + userLocation.toString());
             document.getElementById("userCurrPosition").value = userLocation.toString();
         }
-        window.onload = defineUserLocation();
+
     </script>
 <!-- Fav and touch icons -->
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../ico/apple-touch-icon-144-precomposed.png">
@@ -42,7 +43,7 @@ body {
 <link rel="shortcut icon" href="../ico/favicon.png">
 </head>
 
-<body>
+<body onload="defineUserLocation()">
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
@@ -159,7 +160,7 @@ body {
 <hr>
 <footer>
   <p>&copy; MechBid 2013</p>
-    Your location:<input type="text" id="userCurrPosition" disabled="true"><!--this is for test purposes , to be removed-->
+    Your location:<input type="text" id="userCurrPosition"><!--this is for test purposes , to be removed-->
 </footer>
 </div>
 <!-- /container --> 
