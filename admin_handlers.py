@@ -120,34 +120,29 @@ def importData():
     #print json.load("/input_data/1")
 
 
-def OpenJson(file_name):
+def OpenJson(file_name, dir_name):
 
-    datafile = os.path.join('input_data', file_name)
+    datafile = os.path.join(dir_name, file_name)
     with open(datafile) as data_file:
         data = json.load(data_file)
 
     return data
 
 
-class AdminHandler(BaseHandler):
-    """Displays the admin page with all the admin options"""
-    def get(self):
-        self.render("admin.html")
+def GetFileList(dir_name):
+
+    file_list = os.listdir(dir_name)
+    return file_list
 
 
-class ImportMechData(BaseHandler):
-
-    # @BaseHandler.logged_in
-
-    def get(self):
-        json_doc = OpenJson('19003_A-1-Auto-Parts-Ltd.json')
-        another_json_doc = OpenJson('1185288_Pacific-Paving-Ltd.json')
+def ImportNewBusiness(file_name, dir_name):
+        json_doc = OpenJson(file_name, dir_name)
         #parse json
 
         #website
         try:
             website = json_doc['products']['webUrl'][0]
-        except KeyError:
+        except:
             website='null'
 
         # categories
@@ -155,8 +150,8 @@ class ImportMechData(BaseHandler):
         try:
             for category in json_doc['categories']:
                 categories.append(category['name'])
-        except KeyError:
-            categories='null'
+        except:
+            categories=[]
 
         # phones
         phones = []
@@ -164,55 +159,55 @@ class ImportMechData(BaseHandler):
             for phone in json_doc['phones']:
                 phone_dict = {'type': phone['type'], 'number': phone['dispNum']}
                 phones.append(phone_dict)
-        except KeyError:
-            phones='null'
+        except:
+            phones=[]
 
         # pay methods
         pay_methods = []
         try:
             for pmethod in json_doc['products']['profiles'][0]['keywords']['MthdPmt']:
                 pay_methods.append(pmethod)
-        except KeyError:
-            pay_methods='null'
+        except:
+            pay_methods=[]
 
         # spoken languages
         lang_spk = []
         try:
             for lang in json_doc['products']['profiles'][0]['keywords']['LangSpk']:
                 lang_spk.append(lang)
-        except KeyError:
-            lang_spk='null'
+        except:
+            lang_spk=[]
 
         # open hours
         open_hours = []
         try:
             for day in json_doc['products']['profiles'][0]['keywords']['OpenHrs']:
                 open_hours.append(day)
-        except KeyError:
-            open_hours='null'
+        except:
+            open_hours=[]
 
         # products and services
         products_services = []
         try:
             for prod_serv in json_doc['products']['profiles'][0]['keywords']['ProdServ']:
                products_services.append(prod_serv)
-        except KeyError:
-            products_services='null'
+        except:
+            products_services=[]
 
         # specials
         specials = []
         try:
             for special in json_doc['products']['profiles'][0]['keywords']['Special']:
                 specials.append(special)
-        except KeyError:
-            specials='null'
+        except:
+            specials=[]
 
         # brands
         brands = []
         try:
             for brand in json_doc['products']['profiles'][0]['keywords']['BrndCrrd']:
                 brands.append(brand)
-        except KeyError:
+        except:
             brands='ALL'
 
         # teasers
@@ -220,12 +215,10 @@ class ImportMechData(BaseHandler):
         try:
             for teaser in json_doc['products']['profiles'][0]['keywords']['Teaser']:
                 teasers.append(teaser)
-        except KeyError:
-            teasers='null'
+        except:
+            teasers=[]
 
         #self.write(json.dumps(json_doc, sort_keys=True, indent=4))
-
-        #self.write(open_hours)
 
         params = {
             'pid': uuid.uuid4().hex, # auto-generate default UID
@@ -249,8 +242,32 @@ class ImportMechData(BaseHandler):
             'products_services': products_services}
 
         #self.write(params['phones'][0]['type'])
-        #BaseDocumentManager.create_document(name=name, description=description, address=address)
-        Business.create(params, params['pid'])
+
+
+
+        if Business.create(params, params['pid']) != 'null':
+            BaseDocumentManager.create_document(params)
+            return 'Business '+json_doc['name']+' successfully created'
+
+        return 'ERROR creating '+json_doc['name']+' business!'
+
+
+class AdminHandler(BaseHandler):
+    """Displays the admin page with all the admin options"""
+    def get(self):
+        self.render("admin.html")
+
+
+class ImportMechData(BaseHandler):
+
+    # @BaseHandler.logged_in
+
+    def get(self):
+        file_list_to_import = GetFileList('input_data')
+
+        for file in file_list_to_import:
+             self.write(ImportNewBusiness(file, 'input_data'))
+             self.write('<br>')
 
 
 class DeleteMechHandler(BaseHandler):
@@ -266,6 +283,7 @@ class CreateBusinessHandler(BaseHandler):
     """Handler to create a new business account with all the properties: this constitutes both a mech entity
     and its associated indexed document."""
 
+    #"Jenkins Test 3"
     def get(self):
         self.render("new_business.html", car_brands=car_brands)
 

@@ -53,21 +53,24 @@ class Business(ndb.Model):
                 new_phone = Phone(type=phone['type'], number=phone['number'])
                 phones.append(new_phone)
 
-        business = cls(
-            id = params['pid'],
-            name = params['name'],
-            address = Address(street=params['street'], city=params['city'], province=params['province'], country='Canada', postalCode=params['pcode']),
-            phones = phones,
-            email = params['email'],
-            website = params['website'],
-            geoLocation =  ndb.GeoPt(params['geo_lat'], params['geo_long']),
-            workingHours = params['open_hours'],
-            languagesSpoken = params['lang_spk'],
-            brandsServiced = brands,
-            categories = params['categories'],
-            services = params['products_services'],
-            paymentMethod = params['pay_methods'],
-            active = bool(1))
+        try:
+            business = cls(
+                id = params['pid'],
+                name = params['name'],
+                address = Address(street=params['street'], city=params['city'], province=params['province'], country='Canada', postalCode=params['pcode']),
+                phones = phones,
+                email = params['email'],
+                website = params['website'],
+                geoLocation =  ndb.GeoPt(params['geo_lat'], params['geo_long']),
+                workingHours = params['open_hours'],
+                languagesSpoken = params['lang_spk'],
+                brandsServiced = brands,
+                categories = params['categories'],
+                services = params['products_services'],
+                paymentMethod = params['pay_methods'],
+                active = bool(1))
+        except:
+            return 'null'
 
         business.put()
 
