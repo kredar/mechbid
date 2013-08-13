@@ -122,9 +122,12 @@ def importData():
 
 def OpenJson(file_name, dir_name):
 
-    datafile = os.path.join(dir_name, file_name)
-    with open(datafile) as data_file:
-        data = json.load(data_file)
+    try:
+        datafile = os.path.join(dir_name, file_name)
+        with open(datafile) as data_file:
+            data = json.load(data_file)
+    except:
+        return 'null'
 
     return data
 
@@ -135,8 +138,126 @@ def GetFileList(dir_name):
     return file_list
 
 
+def testImportNewBusiness(file_name, dir_name):
+        json_doc = OpenJson(file_name, dir_name)
+
+        if json_doc == 'null':
+            return 'ERROR: Could not open '+file_name+' file'
+        #parse json
+
+        #website
+        try:
+            website = json_doc['products']['webUrl'][0]
+        except:
+            website='null'
+
+        # categories
+        categories = []
+        try:
+            for category in json_doc['categories']:
+                categories.append(category['name'])
+        except:
+            categories=[]
+
+        # phones
+        phones = []
+        try:
+            for phone in json_doc['phones']:
+                phone_dict = {'type': phone['type'], 'number': phone['dispNum']}
+                phones.append(phone_dict)
+        except:
+            phones=[]
+
+        # pay methods
+        pay_methods = []
+        try:
+            for pmethod in json_doc['products']['profiles'][0]['keywords']['MthdPmt']:
+                pay_methods.append(pmethod)
+        except:
+            pay_methods=[]
+
+        # spoken languages
+        lang_spk = []
+        try:
+            for lang in json_doc['products']['profiles'][0]['keywords']['LangSpk']:
+                lang_spk.append(lang)
+        except:
+            lang_spk=[]
+
+        # open hours
+        open_hours = []
+        try:
+            for day in json_doc['products']['profiles'][0]['keywords']['OpenHrs']:
+                open_hours.append(day)
+        except:
+            open_hours=[]
+
+        # products and services
+        products_services = []
+        try:
+            for prod_serv in json_doc['products']['profiles'][0]['keywords']['ProdServ']:
+               products_services.append(prod_serv)
+        except:
+            products_services=[]
+
+        # specials
+        specials = []
+        try:
+            for special in json_doc['products']['profiles'][0]['keywords']['Special']:
+                specials.append(special)
+        except:
+            specials=[]
+
+        # brands
+        brands = []
+        try:
+            for brand in json_doc['products']['profiles'][0]['keywords']['BrndCrrd']:
+                brands.append(brand)
+        except:
+            brands='ALL'
+
+        # teasers
+        teasers = []
+        try:
+            for teaser in json_doc['products']['profiles'][0]['keywords']['Teaser']:
+                teasers.append(teaser)
+        except:
+            teasers=[]
+
+        #self.write(json.dumps(json_doc, sort_keys=True, indent=4))
+
+        params = {
+            'pid': uuid.uuid4().hex, # auto-generate default UID
+            'name': json_doc['name'],
+            'street':  json_doc['address']['street'],
+            'city': json_doc['address']['city'],
+            'pcode': json_doc['address']['pcode'],
+            'province': json_doc['address']['prov'],
+            'email': '',
+            'website': website,
+            'geo_lat': json_doc['geoCode']['latitude'],
+            'geo_long': json_doc['geoCode']['longitude'],
+            'categories': categories,
+            'phones': phones,
+            'pay_methods': pay_methods,
+            'lang_spk': lang_spk,
+            'open_hours': open_hours,
+            'specials': specials,
+            'brands': brands,
+            'teasers': teasers,
+            'products_services': products_services}
+
+        #self.write(params['phones'][0]['type'])
+
+           # BaseDocumentManager.create_document(params)
+        return 'Business '+json_doc['name']+' successfully created'
+
+
 def ImportNewBusiness(file_name, dir_name):
         json_doc = OpenJson(file_name, dir_name)
+        if json_doc == 'null':
+            return 'ERROR: Could not open '+file_name+' file'
+
         #parse json
 
         #website
@@ -246,7 +367,7 @@ def ImportNewBusiness(file_name, dir_name):
 
 
         if Business.create(params, params['pid']) != 'null':
-            BaseDocumentManager.create_document(params)
+           # BaseDocumentManager.create_document(params)
             return 'Business '+json_doc['name']+' successfully created'
 
         return 'ERROR creating '+json_doc['name']+' business!'
@@ -263,9 +384,9 @@ class ImportMechData(BaseHandler):
     # @BaseHandler.logged_in
 
     def get(self):
-        file_list_to_import = GetFileList('input_data')
+        fileListToImport = GetFileList('input_data')
 
-        for file in file_list_to_import:
+        for file in fileListToImport:
              self.write(ImportNewBusiness(file, 'input_data'))
              self.write('<br>')
 
@@ -273,9 +394,24 @@ class ImportMechData(BaseHandler):
 class DeleteMechHandler(BaseHandler):
     """Remove mech entity with the given pid,
     including reviews and its associated indexed document."""
-
+    #testing stuff
     def get(self):
-        self.write("Under construction")
+        categoryList = []
+        serviceList = []
+
+        qry = Business.query()
+
+        for row in qry:
+            for category in row.categories:
+                   if category not in categoryList:
+                       categoryList.append(category)
+            for service in row.services:
+                   if service not in serviceList:
+                       serviceList.append(service)
+
+        for service in serviceList:
+            self.write(service)
+            self.write('<br>')
 
 
 
