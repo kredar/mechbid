@@ -33,8 +33,6 @@
     <!-- start: put map per: http://www.w3schools.com/googleAPI/tryit.asp?filename=tryhtml_map_async -->
     <script>
 
-        // Enable the visual refresh
-        google.maps.visualRefresh = true;
 
         function log(msg) {
             setTimeout(function () {
@@ -52,8 +50,13 @@
             return geoPointStr.substr(position + 10, 8)
         }
 
+
+
         var marker;
         function initialize() {
+
+           // Enable the visual refresh
+           //google.maps.visualRefresh = true;
 
             var mapProp = {
                 center: new google.maps.LatLng(43.6481, -79.4042),
