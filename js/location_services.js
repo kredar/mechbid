@@ -11,6 +11,7 @@
 var geocoder = new google.maps.Geocoder();
 var resolvedLocation;
 
+// function to return the geolocation while taking as input the address from the HTML page and returning the location
 function fetchLocation() {
     var address = document.getElementById('street').value + ', '
         + document.getElementById('city').value + ', '
@@ -34,21 +35,25 @@ function fetchLocation() {
 }
 
 
-function getUserLocation() {
+//function to return the current location of user using browser capabilities
+//initially designed to base the search upon it
+function defineUserLocation()
+{
     // Try HTML5 geolocation
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            alert ('Your Identified Location is: ' + pos.toString());
-            return pos;
+            var pos = new google.maps.LatLng(position.coords.latitude,
+                position.coords.longitude);
+
+            //insert more custom code here
+            document.getElementById("userCurrPosition").value =pos;
+
         }, function() {
             handleNoGeolocation(true);
-            return null;
         });
     } else {
         // Browser doesn't support Geolocation
         handleNoGeolocation(false);
-        return null;
     }
 }
 
@@ -58,14 +63,9 @@ function handleNoGeolocation(errorFlag) {
     } else {
         var content = 'Error: Your browser doesn\'t support geolocation.';
     }
-    alert(content);
-//    var options = {
-//        map: map,
-//        position: new google.maps.LatLng(60, 105),
-//        content: content
-//    };
-//
-//    var infowindow = new google.maps.InfoWindow(options);
-//    map.setCenter(options.position);
+
 }
+
+
+
 

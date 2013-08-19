@@ -25,15 +25,7 @@ body {
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
     <script src="../js/location_services.js"></script>
     <script language="javascript">
-        function defineUserLocation()
-        {
-            //document.getElementById("userCurrPosition").value = "test new";
-            var userLocation = new google.maps.LatLng(); //variable for position
-            userLocation = getUserLocation();
-            //alert ('outside the method Identified Location is: ' + userLocation.toString());
-            document.getElementById("userCurrPosition").value = userLocation.toString();
-        }
-
+        google.maps.event.addDomListener(window, 'load', defineUserLocation);
     </script>
 <!-- Fav and touch icons -->
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../ico/apple-touch-icon-144-precomposed.png">
@@ -43,7 +35,7 @@ body {
 <link rel="shortcut icon" href="../ico/favicon.png">
 </head>
 
-<body onload="defineUserLocation()">
+<body>
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
@@ -159,9 +151,11 @@ body {
 -->
 <hr>
 <footer>
-  <p>&copy; MechBid 2013</p>
-    Your location:<input type="text" id="userCurrPosition"><!--this is for test purposes , to be removed-->
+  <p>&copy; MechBid 2013   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Your location:<input type="text" id="userCurrPosition" size="50" name="userCurrPosition" value="initial"><!--this is for test purposes , to be removed-->
+</p>
 </footer>
+
 </div>
 <!-- /container --> 
 
