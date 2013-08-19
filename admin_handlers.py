@@ -122,9 +122,12 @@ def importData():
 
 def OpenJson(file_name, dir_name):
 
-    datafile = os.path.join(dir_name, file_name)
-    with open(datafile) as data_file:
-        data = json.load(data_file)
+    try:
+        datafile = os.path.join(dir_name, file_name)
+        with open(datafile) as data_file:
+            data = json.load(data_file)
+    except:
+        return 'null'
 
     return data
 
@@ -137,6 +140,9 @@ def GetFileList(dir_name):
 
 def ImportNewBusiness(file_name, dir_name):
         json_doc = OpenJson(file_name, dir_name)
+        if json_doc == 'null':
+            return 'ERROR: Could not open '+file_name+' file'
+
         #parse json
 
         #website
@@ -218,11 +224,15 @@ def ImportNewBusiness(file_name, dir_name):
         except:
             teasers=[]
 
-        #self.write(json.dumps(json_doc, sort_keys=True, indent=4))
+        try:
+            businesName = json_doc['name']
+            businessAddressCity = json_doc['address']['city']
+        except:
+            return 'ERROR: '+file_name+' file is missing essential business information'
 
         params = {
             'pid': uuid.uuid4().hex, # auto-generate default UID
-            'name': json_doc['name'],
+            'name': businesName,
             'street':  json_doc['address']['street'],
             'city': json_doc['address']['city'],
             'pcode': json_doc['address']['pcode'],
@@ -243,10 +253,8 @@ def ImportNewBusiness(file_name, dir_name):
 
         #self.write(params['phones'][0]['type'])
 
-
-
         if Business.create(params, params['pid']) != 'null':
-            BaseDocumentManager.create_document(params)
+           # BaseDocumentManager.create_document(params)
             return 'Business '+json_doc['name']+' successfully created'
 
         return 'ERROR creating '+json_doc['name']+' business!'
@@ -263,9 +271,9 @@ class ImportMechData(BaseHandler):
     # @BaseHandler.logged_in
 
     def get(self):
-        file_list_to_import = GetFileList('input_data')
+        fileListToImport = GetFileList('input_data')
 
-        for file in file_list_to_import:
+        for file in fileListToImport:
              self.write(ImportNewBusiness(file, 'input_data'))
              self.write('<br>')
 
@@ -273,9 +281,24 @@ class ImportMechData(BaseHandler):
 class DeleteMechHandler(BaseHandler):
     """Remove mech entity with the given pid,
     including reviews and its associated indexed document."""
-
+    #testing stuff
     def get(self):
-        self.write("Under construction")
+        categoryList = []
+        serviceList = []
+
+        qry = Business.query()
+
+        for row in qry:
+            for category in row.categories:
+                   if category not in categoryList:
+                       categoryList.append(category)
+            for service in row.services:
+                   if service not in serviceList:
+                       serviceList.append(service)
+
+        for service in serviceList:
+            self.write(service)
+            self.write('<br>')
 
 
 
