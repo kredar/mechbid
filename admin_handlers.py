@@ -286,19 +286,19 @@ class DeleteMechHandler(BaseHandler):
         categoryList = []
         serviceList = []
 
-        qry = Business.query()
+        qry = Business.query(Business.name == 'Auto Service Plus')
+
+        #for row in qry:
+         #   for category in row.categories:
+          #         if category not in categoryList:
+           #            categoryList.append(category)
+            #for service in row.services:
+             #      if service not in serviceList:
+              #         serviceList.append(service)
 
         for row in qry:
-            for category in row.categories:
-                   if category not in categoryList:
-                       categoryList.append(category)
-            for service in row.services:
-                   if service not in serviceList:
-                       serviceList.append(service)
-
-        for service in serviceList:
-            self.write(service)
-            self.write('<br>')
+            self.write(row.brandsServiced)
+        #    self.write('<br>')
 
 
 

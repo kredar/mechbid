@@ -44,7 +44,7 @@ class Business(ndb.Model):
         values, and the given doc_id."""
 
         if params['brands'] == 'ALL':
-            brands = car_brands
+            brands = []
         else:
             brands = params['brands']
 
