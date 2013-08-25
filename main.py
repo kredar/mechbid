@@ -19,7 +19,7 @@ import webapp2
 from base_handler import *
 from MainPageHandler import *
 from handlers import *
-
+from ResultsPageHandler import *
 
 class MainHandler(BaseHandler):
     def get(self):
@@ -36,6 +36,7 @@ class MainHandler(BaseHandler):
 app = webapp2.WSGIApplication(
     [('//?', MainPageHandler),
      ('/signup', SignUpHandler),
+     ('/results' + RESULTS_RE, ResultsPageHandler),
      ('/', MainHandler)
 
     ],

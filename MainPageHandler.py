@@ -15,8 +15,9 @@ class MainPageHandler(BaseHandler):
 
     def post(self):
         str_to_search = self.request.get('search')
-
-
+        location = self.request.get('location')
+        str_to_search = str_to_search.replace('-', '--')
+        str_to_search = str_to_search.replace(' ', '-')
 
         #str_to_search = "second"
         #logging.error("search ====================== %s " % str_to_search)
@@ -24,12 +25,12 @@ class MainPageHandler(BaseHandler):
 
         #query = search.Query(query_string=str_to_search, options=options)
         #results = search.Index(name=INDEX_NAME).search(str_to_search)
-        results = BaseDocumentManager.find_documents(str_to_search, 20, search.Cursor())
+        #results = BaseDocumentManager.find_documents(str_to_search, 20, search.Cursor())
 
         #self.write(results)
-        if results:
-            self.render("results.html", results=results)
-
+        #if results:
+        #    self.render("results.html", results=results)
+        self.redirect("/results/" + str_to_search + "-near-" + location)
         #
         #     for doc in results:
         #         # logging.info("doc: %s ", doc)
