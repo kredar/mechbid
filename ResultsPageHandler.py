@@ -8,7 +8,7 @@ from config import *
 
 _INDEX_NAME = "my_mechanic"
 
-
+#This class is handling all the search requests
 class ResultsPageHandler(BaseHandler):
     def get(self, query):
         url_get = self.request.GET
@@ -18,11 +18,7 @@ class ResultsPageHandler(BaseHandler):
         if matchObj:
             str_to_search = matchObj.group(1)
             location = matchObj.group(2)
-            #logging.error("What : %s" % matchObj.group(1))
-            #logging.error("Where : %s" % matchObj.group(2))
 
-        #str_to_search = self.request.get('search')
-        #location = self.request.get('location')
         str_to_search = str_to_search.replace('-', ' ')
 
 

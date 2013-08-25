@@ -17,7 +17,12 @@ class MainPageHandler(BaseHandler):
         str_to_search = self.request.get('search')
         location = self.request.get('location')
         str_to_search = str_to_search.replace('-', '--')
+        #TODO Artiom K: Make sure I am handling all the special and UNICODE characters
+
+        #logging.error("search before====================== %s " % str_to_search)
+        str_to_search = re.sub('[^A-Za-z0-9-]+', ' ', str_to_search)
         str_to_search = str_to_search.replace(' ', '-')
+        #logging.error("search after====================== %s " % str_to_search)
 
         #str_to_search = "second"
         #logging.error("search ====================== %s " % str_to_search)

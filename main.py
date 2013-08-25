@@ -21,10 +21,10 @@ from MainPageHandler import *
 from handlers import *
 from ResultsPageHandler import *
 
+#Artiom K. Defines the pages our app is handling
 app = webapp2.WSGIApplication(
     [('//?', MainPageHandler),
      ('/signup', SignUpHandler),
      ('/results' + RESULTS_RE, ResultsPageHandler)
-
     ],
     debug=True)
