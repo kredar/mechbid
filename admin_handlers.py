@@ -254,7 +254,7 @@ def ImportNewBusiness(file_name, dir_name):
         #self.write(params['phones'][0]['type'])
 
         if Business.create(params, params['pid']) != 'null':
-           # BaseDocumentManager.create_document(params)
+            BaseDocumentManager.create_document(params)
             return 'Business '+json_doc['name']+' successfully created'
 
         return 'ERROR creating '+json_doc['name']+' business!'
@@ -306,7 +306,6 @@ class CreateBusinessHandler(BaseHandler):
     """Handler to create a new business account with all the properties: this constitutes both a mech entity
     and its associated indexed document."""
 
-    #"Jenkins Test 3"
     def get(self):
         self.render("new_business.html", car_brands=car_brands)
 
@@ -329,14 +328,15 @@ class CreateBusinessHandler(BaseHandler):
             'pcode': self.request.get('pcode'),
             'province': self.request.get('province'),
             'phone_type': self.request.get('phone_type1'),
-            'phone_number': self.request.get('phone_number1'),
+            'phones': self.request.get('phones'),
+            'brands': self.request.get('brands'),
             'email': self.request.get('email'),
             'website': self.request.get('website'),
             'location': self.request.get('location')}
 
         # BaseDocumentManager.create_document(name=name, description=description, address=address)
         BaseDocumentManager.create_document(params=params)
-        #Business.create(params, params['pid'])
+        Business.create(params, params['pid'])
 
         self.redirect('/admin/manage')
 

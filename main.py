@@ -20,11 +20,12 @@ from base_handler import *
 from MainPageHandler import *
 from handlers import *
 from ResultsPageHandler import *
+from businessPageHandler import *
 
 #Artiom K. Defines the pages our app is handling
 app = webapp2.WSGIApplication(
     [('//?', MainPageHandler),
      ('/signup', SignUpHandler),
-     ('/results' + RESULTS_RE, ResultsPageHandler)
-    ],
+     ('/results' + RESULTS_RE, ResultsPageHandler),
+     (BUSINESS_PID_RE, BusinessPageHandler)],
     debug=True)

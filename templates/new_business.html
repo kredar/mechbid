@@ -22,7 +22,7 @@ document.getElementById('phone_number').innerHTML +=  "<table>"+
             "<label for='phone'>Number:</label>"+
             "</td><td>"+
             "<div class='input'>"+
-                "<input type='text' name='phone_number"+phones+"' value='' />  "+
+                "<input type='text' name='phones"+phones+"' value='' />  "+
             "</div>"+
             "</td>"+
         "</tr>"+
@@ -261,7 +261,7 @@ function validateForm() {
                <label for="type">Brands Serviced:</label>
             </td><td>
                <div class="input">
-                <select id="select_brand" name="brand" value="{{brand}}">
+                <select id="select_brand" name="brands" value="{{brand}}">
                 {% for car in car_brands %}
                 <option value="{{ car }}">{{ car }}</option>
                 {% endfor %}

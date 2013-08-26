@@ -72,7 +72,7 @@ body {
       <div class="row">
         <div class="span9 main-search-results">
           <div class="">
-            <h2>Mecahnic Name</h2>
+            <h2>{{business.name}}</h2>
             <p>Shops displaying the MechBid logo have passed MechBid's rigorous screening and customer interview process, and guarantee fair prices. <a href="#">Learn more &raquo;</a></p>
           </div>
           <hr>
@@ -87,8 +87,10 @@ body {
               <ul>
                 <li>Distance from M4V 1J7 &#8211; 1.0 km</li>
                 <li>416-123-4567</li>
-                <li>40 Yonge St, Toronto, ON M4V 1Y5</li>
-                <li>Specialized in: Category 1, Category 2, Category 3</li>
+                <li>Address: {{business.address.street}}, {{business.address.city}} , {{business.address.postalCode}}</li>
+                <li>Specialized in: {{business.categories}}</li>
+                <li>Services Provided: {{business.services}}</li>
+                <li>Website: <a href="{{business.website}}">{{business.website}}</a></li>
               </ul>
             </div>
             <div class="tab-pane" id="profile"> </div>

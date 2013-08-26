@@ -24,30 +24,43 @@ class BaseDocumentManager():
 
     @classmethod
     def create_document(cls, params):
+        """ Creates doc for specific mechanic """
         # ALEXK split the location into pair of coordinates and create the geopoint
         # TODO make more proper handling of the undefined location (maybe block in GUI or not add to the document)
-        if params['location'] == "" or params['location'] == "undefined":
-            logging.info("location as not defined as search criteria, setting to Toronto")
-            businessLatitude = float(43.6519186) # this is a temporry solution since such case must be blocked in GUI
-            businessLongitude = float(-79.3824024)
-        else:
-            coordinatesPair = tuple(params['location'].split(','))
-            businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
-            businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
+        businessLatitude = float(43.6519186) # this is a temporry solution since such case must be blocked in GUI
+        businessLongitude = float(-79.3824024)
+
+        if 'location' in params:#Artiom K. check if the key exists
+            if params['location'] == "" or params['location'] == "undefined":
+                logging.info("location as not defined as search criteria, setting to Toronto")
+                businessLatitude = float(43.6519186) # this is a temporry solution since such case must be blocked in GUI
+                businessLongitude = float(-79.3824024)
+            else:
+                coordinatesPair = tuple(params['location'].split(','))
+                businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
+                businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
         geopoint = search.GeoPoint(businessLatitude, businessLongitude)
 
         #construct the address from the separated fields
         address = params['street'] + ", " + params['city'] + ", " + params['pcode']
-        """ Creates doc for specific mechanic """
+
         document = search.Document(
-            fields=[search.TextField(name='name', value=params['name']),
+            fields=[search.TextField(name='pid', value=params['pid']),
+                    search.TextField(name='name', value=params['name']),
                     search.TextField(name='address', value=address),
                     search.TextField(name='street', value=params['street']),
                     search.TextField(name='city', value=params['city']),
+                    search.TextField(name='province', value=params['province']),
                     search.TextField(name='pcode', value=params['pcode']),
                     search.TextField(name='website', value=params['website']),
-                    search.DateField(name='date', value=datetime.now().date()),
-                    search.GeoField(name='location', value=geopoint)
+                    search.GeoField(name='location', value=geopoint),
+                    #search.GeoField(name='geo_lat', value=params['geo_lat']),
+                    #search.GeoField(name='geo_long', value=params['geo_long']),
+                    #search.TextField(name='phones', value=params['phones']),
+                    #search.TextField(name='categories', value=params['categories']),
+                    search.TextField(name='brands', value=params['brands']),
+                    search.DateField(name='date', value=datetime.now().date())
+
             ])
 
         try:
@@ -63,7 +76,7 @@ class BaseDocumentManager():
 
 
     @classmethod
-    def delete_all_in_index(cls, index_name):
+    def delete_all_in_index(cls, index_name=INDEX_NAME):
         """Delete all the docs in the given index."""
         doc_index = search.Index(name=index_name)
 
@@ -125,7 +138,7 @@ class BaseDocumentManager():
                 limit=limit, # the number of results to return
                 cursor=cursor,
                 sort_options=sort,
-                returned_fields=['name', 'address', 'location'],
+                returned_fields=['name', 'address', 'location', 'pid', 'brands', 'phones'],
                 snippeted_fields=['content'])
 
             #ALEXK added location example here, remove if all works

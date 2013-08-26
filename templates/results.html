@@ -160,7 +160,7 @@
                     <!--here comes the list of the results;   changed by ALEXK-->
                     {% for doc in results%}
                         <div class="search-result">
-                            <h3><a href="#">Repair Shop Named:  {{ doc.field('name').value}} </a></h3>
+                            <h3><a href="/{{doc.field('pid').value}}">Repair Shop Named:  {{ doc.field('name').value }} </a></h3>
                             <ul>
                                 <li>By proximity to Nathan Philip Square  &#8211; SORTED</li>
                                 <li>Address is: {{ doc.field('address').value}}</li>

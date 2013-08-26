@@ -17,4 +17,5 @@ PASS_RE = re.compile(r"^.{3,20}$")
 EMAIL_RE = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 
 RESULTS_RE = r'(/(?:[a-zA-Z0-9!_-]+/?)*)'
+BUSINESS_PID_RE = r'(/(?:[a-zA-Z0-9]+/?)*)'
 

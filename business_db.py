@@ -21,7 +21,7 @@ class Phone(ndb.Model):
     number = ndb.StringProperty()
 
 class Business(ndb.Model):
-    id = ndb.StringProperty()
+    #id = ndb.StringProperty()
     name = ndb.StringProperty(required = True)
     address = ndb.StructuredProperty(Address, required = True)
     phones = ndb.StructuredProperty(Phone, repeated = True)
