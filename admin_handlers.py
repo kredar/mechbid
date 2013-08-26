@@ -18,6 +18,7 @@ from base_handler import BaseHandler
 from docs import *
 from business_db import *
 from pprint import pprint
+from docs import *
 
 from google.appengine.api import users
 from google.appengine.ext.deferred import defer
@@ -25,6 +26,12 @@ from google.appengine.ext import ndb
 from google.appengine.api import search
 
 car_brands = ["Acura","Aston Martin","Audi","Bentley","BMW","Buick","Cadillac","Chevrolet","Chrysler","Dodge","Ferrari","Fiat","Ford","GMC","Honda","Hyundai","Infiniti","Jaguar","Jeep","Kia","Lamborghini","Land Rover","Lexus","Lincoln","Lotus","Maserati","Maybach","Mazda","Mercedes-Benz","MINI","Mitsubishi","Nissan","Porsche","Ram","Rolls-Royce","Scion","smart","Subaru","Suzuki","Toyota","Volkswagen","Volvo"]
+
+class DeleteDocsPageHandler(BaseHandler):
+    def get(self):
+        BaseDocumentManager.delete_all_in_index(INDEX_NAME)
+        self.redirect('/admin/manage')
+
 
 def reinitAll(sample_data=True):
     """

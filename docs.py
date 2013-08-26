@@ -12,12 +12,17 @@ import re
 import string
 import urllib
 from datetime import datetime
+from base_handler import *
 
 from config import *
 
 from google.appengine.api import search
 from google.appengine.ext import ndb
 
+class DeleteDocsPageHandler(BaseHandler):
+    def get(self):
+        BaseDocumentManager.delete_all_in_index(INDEX_NAME)
+        self.redirect('/')
 
 class BaseDocumentManager():
     """Abstract class. Provides helper methods to manage search.Documents."""
