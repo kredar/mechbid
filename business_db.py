@@ -70,6 +70,7 @@ class Business(ndb.Model):
                 paymentMethod = params['pay_methods'],
                 active = bool(1))
         except:
+            logging.error("CANT ADD NEW ENTITY")
             return 'null'
 
         business.put()

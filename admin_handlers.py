@@ -327,6 +327,10 @@ class CreateBusinessHandler(BaseHandler):
             phones['number'+str(phone_num)] = self.request.get('phone_number'+str(phone_num))
             phone_num += 1
 
+
+
+
+
         params = {
             'pid': uuid.uuid4().hex, # auto-generate default UID
             'name': self.request.get('name'),
@@ -339,7 +343,19 @@ class CreateBusinessHandler(BaseHandler):
             'brands': self.request.get('brands'),
             'email': self.request.get('email'),
             'website': self.request.get('website'),
-            'location': self.request.get('location')}
+            'location': self.request.get('location'),
+            #Artiom K. Temporary
+            'geo_lat': "43.6519186",
+            'geo_long': "-79.3824024",
+            'categories': "Car repair",
+            'pay_methods': "Visa",
+            'lang_spk': "English",
+            'open_hours': "9-5",
+            'specials': "Everything",
+            'teasers': "teasers",
+            'products_services': "products_services"
+            #Artiom K
+        }
 
         # BaseDocumentManager.create_document(name=name, description=description, address=address)
         BaseDocumentManager.create_document(params=params)
