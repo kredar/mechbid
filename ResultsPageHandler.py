@@ -23,5 +23,7 @@ class ResultsPageHandler(BaseHandler):
 
 
         results = BaseDocumentManager.find_documents(str_to_search, 20, search.Cursor())
-
-        self.render("results.html", results=results)
+        if results:
+            self.render("results.html", results=results)
+        else:
+            self.redirect("/")
