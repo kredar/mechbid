@@ -43,11 +43,6 @@ class Business(ndb.Model):
         """Create a new business entity from a subset of the given params dict
         values, and the given doc_id."""
 
-        if params['brands'] == 'ALL':
-            brands = []
-        else:
-            brands = params['brands']
-
         phones = []
         for phone in params['phones']:
                 new_phone = Phone(type=phone['type'], number=phone['number'])
@@ -64,7 +59,7 @@ class Business(ndb.Model):
                 geoLocation =  ndb.GeoPt(params['geo_lat'], params['geo_long']),
                 workingHours = params['open_hours'],
                 languagesSpoken = params['lang_spk'],
-                brandsServiced = brands,
+                brandsServiced = params['brands'],
                 categories = params['categories'],
                 services = params['products_services'],
                 paymentMethod = params['pay_methods'],

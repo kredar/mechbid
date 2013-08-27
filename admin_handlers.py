@@ -221,7 +221,7 @@ def ImportNewBusiness(file_name, dir_name):
             for brand in json_doc['products']['profiles'][0]['keywords']['BrndCrrd']:
                 brands.append(brand)
         except:
-            brands='ALL'
+            brands=[]
 
         # teasers
         teasers = []
@@ -293,8 +293,8 @@ class DeleteMechHandler(BaseHandler):
         categoryList = []
         serviceList = []
 
-        qry = Business.query(Business.name == 'Auto Service Plus')
-
+       # qry = Business.query()
+        ndb.delete_multi(Business.query().fetch(999999, keys_only=True))
         #for row in qry:
          #   for category in row.categories:
           #         if category not in categoryList:
@@ -302,9 +302,9 @@ class DeleteMechHandler(BaseHandler):
             #for service in row.services:
              #      if service not in serviceList:
               #         serviceList.append(service)
-
-        for row in qry:
-            self.write(row.brandsServiced)
+        self.write('All Businesses have been deleted')
+        #for row in qry:
+           # self.write(row.brandsServiced)
         #    self.write('<br>')
 
 
