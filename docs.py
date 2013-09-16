@@ -152,7 +152,7 @@ class BaseDocumentManager():
             #ALEXK added location example here, remove if all works
             # query = "distance(store_location, geopoint(-33.857, 151.215)) < 4500"
 
-            query = search.Query(query_string=query_string + ' and distance(location, geopoint(%s, %s)) < 50000' %
+            query = search.Query(query_string=query_string + ' distance(location, geopoint(%s, %s)) < 50000' %
                                               (exampleLat, exampleLon), options=options)
             index = search.Index(name=INDEX_NAME)
 
