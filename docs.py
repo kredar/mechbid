@@ -150,7 +150,6 @@ class BaseDocumentManager():
             # query = "distance(store_location, geopoint(-33.857, 151.215)) < 4500"
 
             query = search.Query(query_string=query_string, options=options)
-
             index = search.Index(name=INDEX_NAME)
 
             # Execute the query
