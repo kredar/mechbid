@@ -133,19 +133,19 @@ class BaseDocumentManager():
             loc_expr = 'distance(location, geopoint(%s, %s)) < 50000' % (exampleLat, exampleLon)
 
             #expression='name',
-            subject_desc = search.SortExpression(
-                expression=loc_expr,
-                direction=search.SortExpression.ASCENDING,
-                default_value='')
+            # subject_desc = search.SortExpression(
+            #     expression=loc_expr,
+            #     direction=search.SortExpression.ASCENDING,
+            #     default_value='')
 
             # Sort up to 1000 matching results by subject in descending order
-            sort = search.SortOptions(expressions=[subject_desc], limit=1000)
+            #sort = search.SortOptions(expressions=[subject_desc], limit=1000)
 
             # Set query options
             options = search.QueryOptions(
                 limit=limit, # the number of results to return
                 cursor=cursor,
-                sort_options=sort,
+            #    sort_options=sort,
                 returned_fields=['name', 'address', 'location', 'pid', 'brands', 'phones'],
                 snippeted_fields=['content'])
 
