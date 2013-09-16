@@ -127,29 +127,29 @@ class BaseDocumentManager():
             # -79.3824024
             exampleLat = float(43.6519186)
             exampleLon = float(-79.3824024)
-            loc_expr = 'distance(location, geopoint(%s, %s))' % (exampleLat, exampleLon)
+            loc_expr = 'distance(location, geopoint(%s, %s)) < 50000' % (exampleLat, exampleLon)
 
-            ##expression='name',
-            # subject_desc = search.SortExpression(
-            #     expression=loc_expr,
-            #     direction=search.SortExpression.ASCENDING,
-            #     default_value='')
-            #
-            # # Sort up to 1000 matching results by subject in descending order
-            # sort = search.SortOptions(expressions=[subject_desc], limit=1000)
-            #
-            # # Set query options
-            # options = search.QueryOptions(
-            #     limit=limit, # the number of results to return
-            #     cursor=cursor,
-            #     sort_options=sort,
-            #     returned_fields=['name', 'address', 'location', 'pid', 'brands', 'phones'],
-            #     snippeted_fields=['content'])
+            #expression='name',
+            subject_desc = search.SortExpression(
+                expression=loc_expr,
+                direction=search.SortExpression.ASCENDING,
+                default_value='')
+
+            # Sort up to 1000 matching results by subject in descending order
+            sort = search.SortOptions(expressions=[subject_desc], limit=1000)
+
+            # Set query options
+            options = search.QueryOptions(
+                limit=limit, # the number of results to return
+                cursor=cursor,
+                sort_options=sort,
+                returned_fields=['name', 'address', 'location', 'pid', 'brands', 'phones'],
+                snippeted_fields=['content'])
 
             #ALEXK added location example here, remove if all works
             # query = "distance(store_location, geopoint(-33.857, 151.215)) < 4500"
 
-            query = search.Query(query_string=query_string)#, options=options)
+            query = search.Query(query_string=query_string, options=options)
 
             index = search.Index(name=INDEX_NAME)
 
