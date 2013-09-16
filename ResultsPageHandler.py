@@ -26,7 +26,6 @@ class ResultsPageHandler(BaseHandler):
 
         #TODO: ARTIOM K. - need to take care of the location decomposition
 
-
         results = BaseDocumentManager.find_documents(str_to_search, 20, search.Cursor())
         if results:
             self.render("results.html", results=results)
