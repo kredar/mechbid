@@ -19,10 +19,12 @@ from config import *
 from google.appengine.api import search
 from google.appengine.ext import ndb
 
+
 class DeleteDocsPageHandler(BaseHandler):
     def get(self):
         BaseDocumentManager.delete_all_in_index(INDEX_NAME)
         self.redirect('/')
+
 
 class BaseDocumentManager():
     """Abstract class. Provides helper methods to manage search.Documents."""
@@ -38,7 +40,8 @@ class BaseDocumentManager():
         if 'location' in params:#Artiom K. check if the key exists
             if params['location'] == "" or params['location'] == "undefined":
                 logging.info("location as not defined as search criteria, setting to Toronto")
-                businessLatitude = float(43.6519186) # this is a temporry solution since such case must be blocked in GUI
+                businessLatitude = float(
+                    43.6519186) # this is a temporry solution since such case must be blocked in GUI
                 businessLongitude = float(-79.3824024)
             else:
                 coordinatesPair = tuple(params['location'].split(','))
@@ -149,7 +152,8 @@ class BaseDocumentManager():
             #ALEXK added location example here, remove if all works
             # query = "distance(store_location, geopoint(-33.857, 151.215)) < 4500"
 
-            query = search.Query(query_string=query_string, options=options)
+            query = search.Query(query_string=query_string + ' and distance(location, geopoint(%s, %s)) < 50000' %
+                                              (exampleLat, exampleLon), options=options)
             index = search.Index(name=INDEX_NAME)
 
             # Execute the query
