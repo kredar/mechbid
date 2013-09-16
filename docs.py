@@ -128,6 +128,7 @@ class BaseDocumentManager():
             # 100 Queen St W, Toronto, ON
             # 43.6519186
             # -79.3824024
+            #TODO: Alex need to get location geo points
             exampleLat = float(43.6519186)
             exampleLon = float(-79.3824024)
             loc_expr = 'distance(location, geopoint(%s, %s)) < 50000' % (exampleLat, exampleLon)
