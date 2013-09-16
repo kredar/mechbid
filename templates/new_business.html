@@ -121,7 +121,6 @@ function validateForm() {
             <label for="name">Street:</label>
             </td><td>
             <div class="input">
-                <input type="hidden" name="location" id="location"/> <!--ask Vadik where is better place to put it-->
                 <input type="text" name="street" id="street" value="{{street}}" />
             </div>
             </td>
@@ -170,6 +169,18 @@ function validateForm() {
             </div>
             </td>
         </tr>
+
+
+           <tr>
+               <td>
+                   <label for="name">RESOLVED LOCATION:</label>
+               </td>
+               <td>
+                   <div class="input">
+                       <input type="text" name="location" id="location" value="{{location}}" disabled="disabled"/>
+                   </div>
+               </td>
+           </tr>
 
          <tr>
             <td>
