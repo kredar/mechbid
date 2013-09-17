@@ -37,16 +37,18 @@ class BaseDocumentManager():
         businessLatitude = float(43.6519186) # this is a temporry solution since such case must be blocked in GUI
         businessLongitude = float(-79.3824024)
 
-        if 'location' in params:#Artiom K. check if the key exists
-            if params['location'] == "" or params['location'] == "undefined":
+        if 'geo_lat' and 'geo_long' in params:#Artiom K. check if the key exists
+            if params['geo_lat'] == "" or params['geo_lat'] == "undefined":
                 logging.info("location as not defined as search criteria, setting to Toronto")
                 businessLatitude = float(
                     43.6519186) # this is a temporry solution since such case must be blocked in GUI
                 businessLongitude = float(-79.3824024)
             else:
-                coordinatesPair = tuple(params['location'].split(','))
-                businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
-                businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
+                #coordinatesPair = tuple(params['location'].split(','))
+                #businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
+                #businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
+                businessLatitude = params['geo_lat']
+                businessLongitude = params['geo_long']
         geopoint = search.GeoPoint(businessLatitude, businessLongitude)
 
         #construct the address from the separated fields
