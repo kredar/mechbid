@@ -37,7 +37,7 @@ class BaseDocumentManager():
         businessLatitude = float(43.6519186) # this is a temporry solution since such case must be blocked in GUI
         businessLongitude = float(-79.3824024)
 
-        if 'geo_lat' and 'geo_longxed' in params:#Artiom K. check if the key exists
+        if 'geo_lat' and 'geo_long' in params:#Artiom K. check if the key exists
             if params['geo_lat'] == "" or params['geo_lat'] == "undefined":
                 logging.info("location as not defined as search criteria, setting to Toronto")
                 businessLatitude = float(
