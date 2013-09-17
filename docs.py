@@ -47,8 +47,8 @@ class BaseDocumentManager():
                 #coordinatesPair = tuple(params['location'].split(','))
                 #businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
                 #businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
-                businessLatitude = params['geo_lat']
-                businessLongitude = params['geo_long']
+                businessLatitude = int(params['geo_lat'])
+                businessLongitude = int(params['geo_long'])
         geopoint = search.GeoPoint(businessLatitude, businessLongitude)
 
         #construct the address from the separated fields
