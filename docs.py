@@ -146,7 +146,7 @@ class BaseDocumentManager():
             options = search.QueryOptions(
                 limit=limit, # the number of results to return
                 cursor=cursor,
-                sort_options=sort,
+                #sort_options=sort,
                 returned_fields=['name', 'address', 'location', 'pid', 'brands', 'phones'],
                 snippeted_fields=['content'])
 
