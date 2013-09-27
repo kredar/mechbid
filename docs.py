@@ -53,6 +53,13 @@ class BaseDocumentManager():
 
         #construct the address from the separated fields
         address = params['street'] + ", " + params['city'] + ", " + params['pcode']
+        brands=''
+
+        if params['brands'] == []:
+            brands=''
+        else:
+            for brand in params['brands']:
+                brands += brand + ','
 
         document = search.Document(
             fields=[search.TextField(name='pid', value=params['pid']),
@@ -68,7 +75,7 @@ class BaseDocumentManager():
                     #search.GeoField(name='geo_long', value=params['geo_long']),
                     #search.TextField(name='phones', value=params['phones']),
                     #search.TextField(name='categories', value=params['categories']),
-                    search.TextField(name='brands', value=params['brands']),
+                    search.TextField(name='brands', value=brands),
                     search.DateField(name='date', value=datetime.now().date())
 
             ])
