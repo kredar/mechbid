@@ -17,11 +17,11 @@ function fetchLocation() {
         + document.getElementById('city').value + ', '
         + document.getElementById('province').value;
 
-    alert('fetching coordinates for address : ' + address);
+    //alert('fetching coordinates for address : ' + address);
     //based on sample from https://developers.google.com/maps/documentation/javascript/examples/geocoding-simple
     geocoder.geocode({ 'address': address}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            alert('Geocode generated: ' + results[0].geometry.location);
+            //alert('Geocode generated: ' + results[0].geometry.location);
             document.getElementById('location').value = results[0].geometry.location;
             resolvedLocation = results[0].geometry.location;
         } else {

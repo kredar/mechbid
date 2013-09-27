@@ -19,10 +19,12 @@ from config import *
 from google.appengine.api import search
 from google.appengine.ext import ndb
 
+
 class DeleteDocsPageHandler(BaseHandler):
     def get(self):
         BaseDocumentManager.delete_all_in_index(INDEX_NAME)
         self.redirect('/')
+
 
 class BaseDocumentManager():
     """Abstract class. Provides helper methods to manage search.Documents."""
@@ -35,15 +37,18 @@ class BaseDocumentManager():
         businessLatitude = float(43.6519186) # this is a temporry solution since such case must be blocked in GUI
         businessLongitude = float(-79.3824024)
 
-        if 'location' in params:#Artiom K. check if the key exists
-            if params['location'] == "" or params['location'] == "undefined":
+        if 'geo_lat' and 'geo_long' in params:#Artiom K. check if the key exists
+            if params['geo_lat'] == "" or params['geo_lat'] == "undefined":
                 logging.info("location as not defined as search criteria, setting to Toronto")
-                businessLatitude = float(43.6519186) # this is a temporry solution since such case must be blocked in GUI
+                businessLatitude = float(
+                    43.6519186) # this is a temporry solution since such case must be blocked in GUI
                 businessLongitude = float(-79.3824024)
             else:
-                coordinatesPair = tuple(params['location'].split(','))
-                businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
-                businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
+                #coordinatesPair = tuple(params['location'].split(','))
+                #businessLatitude = float(coordinatesPair[0].strip('(').strip(')'))
+                #businessLongitude = float(coordinatesPair[1].strip('(').strip(')'))
+                businessLatitude = float(params['geo_lat'])
+                businessLongitude = float(params['geo_long'])
         geopoint = search.GeoPoint(businessLatitude, businessLongitude)
 
         #construct the address from the separated fields
@@ -125,31 +130,35 @@ class BaseDocumentManager():
             # 100 Queen St W, Toronto, ON
             # 43.6519186
             # -79.3824024
+            #TODO: Alex need to get location geo points
             exampleLat = float(43.6519186)
             exampleLon = float(-79.3824024)
-            loc_expr = 'distance(location, geopoint(%s, %s))' % (exampleLat, exampleLon)
+            loc_expr = 'distance(location, geopoint(%s, %s)) < 50000' % (exampleLat, exampleLon)
 
-            ##expression='name',
-            # subject_desc = search.SortExpression(
-            #     expression=loc_expr,
-            #     direction=search.SortExpression.ASCENDING,
-            #     default_value='')
-            #
-            # # Sort up to 1000 matching results by subject in descending order
-            # sort = search.SortOptions(expressions=[subject_desc], limit=1000)
-            #
-            # # Set query options
-            # options = search.QueryOptions(
-            #     limit=limit, # the number of results to return
-            #     cursor=cursor,
-            #     sort_options=sort,
-            #     returned_fields=['name', 'address', 'location', 'pid', 'brands', 'phones'],
-            #     snippeted_fields=['content'])
+            #expression='name',
+            subject_desc = search.SortExpression(
+                expression=loc_expr,
+                direction=search.SortExpression.ASCENDING,
+                default_value='')
+
+            # Sort up to 1000 matching results by subject in descending order
+            sort = search.SortOptions(expressions=[subject_desc], limit=1000)
+
+            # Set query options
+            options = search.QueryOptions(
+                limit=limit, # the number of results to return
+                cursor=cursor,
+                #sort_options=sort,
+                returned_fields=['name', 'address', 'location', 'pid', 'brands', 'phones'],
+                snippeted_fields=['content'])
 
             #ALEXK added location example here, remove if all works
             # query = "distance(store_location, geopoint(-33.857, 151.215)) < 4500"
 
-            query = search.Query(query_string=query_string)#, options=options)
+            query = search.Query(query_string=query_string + ' distance(location, geopoint(%s, %s)) < 50000' %
+                                              (exampleLat, exampleLon), options=options)
+
+            # query = search.Query(query_string=query_string, options=options)
 
             index = search.Index(name=INDEX_NAME)
 

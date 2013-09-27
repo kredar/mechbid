@@ -15,12 +15,16 @@ class ResultsPageHandler(BaseHandler):
         logging.error("Current URL is %s" % url_get)
         logging.error("query is %s" % query)
         matchObj = re.match(r'/(.*)-near-(.*?)$', query, re.M | re.I)
+
         if matchObj:
             str_to_search = matchObj.group(1)
             location = matchObj.group(2)
 
         str_to_search = str_to_search.replace('-', ' ')
+
         logging.error("str_to_search is %s" % str_to_search)
+
+        #TODO: ARTIOM K. - need to take care of the location decomposition
 
         results = BaseDocumentManager.find_documents(str_to_search, 20, search.Cursor())
         if results:

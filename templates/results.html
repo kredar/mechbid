@@ -78,7 +78,7 @@
                     position: new google.maps.LatLng(markLat, markLon),
                     animation: google.maps.Animation.DROP,
                     icon: 'http://google-maps-icons.googlecode.com/files/carrepair.png',
-                    title: 'Garage Named: {{ doc.field('name').value}}, vizit us, o drugi !!!'
+                    title: 'Garage Named: {{ doc.field('name').value}}, visit us, dear friends !'
                 });
                 marker.setMap(map);
             {% endfor %}
@@ -87,8 +87,9 @@
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(43.6481, -79.4042),
                 icon: 'http://labs.google.com/ridefinder/images/mm_20_green.png',
-                animation: google.maps.Animation.BOUNCE,
-                title: 'Here you are, bastard!'
+                //icon: 'http://labs.google.com/ridefinder/images/mm_20_green.png',
+                animation: google.maps.Animation.DROP,
+                title: 'Here you are, dear user!'
             });
             marker.setMap(map);
         }
@@ -110,13 +111,11 @@
 </head>
 
 <body>
-<input type="hidden" name="searchValue" value={{str_to_search}}>
-<input type="hidden" name="location" value={{location}}>
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
             <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-            <a class="brand" href="#">MechBid</a>
+            <a class="brand" href="/">MechBid</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li class="active"><a href="#">Home</a></li>
@@ -154,7 +153,7 @@
                 <div class="span9 main-search-results">
                     <div class="">
                         <h2>Search Results for garages near Nathan Phillip Square</h2>
-                        <p>Shops displaying the MechBid logo have passed MechBid's rigorous screening and customer interview process, and guarantee fair prices. <a href="#">Hapes ba tahat &raquo;</a></p>
+                        <p>Shops displaying the MechBid logo have passed MechBid's rigorous screening and customer interview process, and guarantee fair prices. <a href="#">More &raquo;</a></p>
                     </div>
                     <hr>
                     <!--here comes the list of the results;   changed by ALEXK-->
