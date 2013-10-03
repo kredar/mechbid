@@ -140,13 +140,13 @@ class BaseDocumentManager():
             #TODO: Alex need to get location geo points
             exampleLat = float(43.6519186)
             exampleLon = float(-79.3824024)
-            loc_expr = 'distance(location, geopoint(%s, %s)) < 50000' % (exampleLat, exampleLon)
+            loc_expr = 'distance(location, geopoint(%s, %s)) < 20000' % (exampleLat, exampleLon)
 
             #expression='name',
             subject_desc = search.SortExpression(
                 expression=loc_expr,
                 direction=search.SortExpression.ASCENDING,
-                default_value='')
+                default_value=search.GeoPoint(float(43.6519186),float(-79.3824024)))
 
             # Sort up to 1000 matching results by subject in descending order
             sort = search.SortOptions(expressions=[subject_desc], limit=1000)

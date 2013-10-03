@@ -281,8 +281,9 @@ class ImportMechData(BaseHandler):
         fileListToImport = GetFileList('input_data')
 
         for file in fileListToImport:
-             self.write(ImportNewBusiness(file, 'input_data'))
-             self.write('<br>')
+            logging.info(file)
+            self.write(ImportNewBusiness(file, 'input_data'))
+            self.write('<br>')
 
 
 class DeleteMechHandler(BaseHandler):
