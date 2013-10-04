@@ -145,8 +145,8 @@ class BaseDocumentManager():
             #expression='name',
             subject_desc = search.SortExpression(
                 expression=loc_expr,
-                #direction=search.SortExpression.ASCENDING,
-                default_value=1)
+                direction=search.SortExpression.ASCENDING,
+                default_value=0)
 
             # Sort up to 1000 matching results by subject in descending order
             sort = search.SortOptions(expressions=[subject_desc], limit=10)
@@ -155,7 +155,7 @@ class BaseDocumentManager():
             options = search.QueryOptions(
                 limit=limit, # the number of results to return
                 cursor=cursor,
-                #sort_options=sort,
+                sort_options=sort,
                 returned_fields=['name', 'address', 'location', 'pid', 'brands', 'phones'],
                 snippeted_fields=['content'])
 
