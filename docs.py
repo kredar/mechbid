@@ -146,7 +146,7 @@ class BaseDocumentManager():
             subject_desc = search.SortExpression(
                 expression=loc_expr,
                 direction=search.SortExpression.ASCENDING,
-                default_value=10001)
+                default_value=1)
 
             # Sort up to 1000 matching results by subject in descending order
             sort = search.SortOptions(expressions=[subject_desc], limit=100)
