@@ -149,7 +149,7 @@ class BaseDocumentManager():
                 default_value=1)
 
             # Sort up to 1000 matching results by subject in descending order
-            sort = search.SortOptions(expressions=[subject_desc], limit=100)
+            sort = search.SortOptions(expressions=[subject_desc], limit=10)
 
             # Set query options
             options = search.QueryOptions(
