@@ -140,7 +140,7 @@ class BaseDocumentManager():
             #TODO: Alex need to get location geo points
             exampleLat = float(43.6519186)
             exampleLon = float(-79.3824024)
-            loc_expr = 'distance(location, geopoint(%s, %s)) < 10000' % (exampleLat, exampleLon)
+            loc_expr = 'distance(location, geopoint(%s, %s))' % (exampleLat, exampleLon)
 
             #expression='name',
             subject_desc = search.SortExpression(
@@ -162,9 +162,9 @@ class BaseDocumentManager():
             #ALEXK added location example here, remove if all works
             # query = "distance(store_location, geopoint(-33.857, 151.215)) < 4500"
 
-            #query = search.Query(query_string=query_string + ' distance(location, geopoint(%s, %s)) < 10000' %
-            #                                  (exampleLat, exampleLon), options=options)
-            query = search.Query(query_string=query_string, options=options)
+            query = search.Query(query_string=query_string + ' distance(location, geopoint(%s, %s)) < 10000' %
+                                              (exampleLat, exampleLon), options=options)
+            #query = search.Query(query_string=query_string, options=options)
 
 
             # query = search.Query(query_string=query_string, options=options)
