@@ -153,7 +153,7 @@ class BaseDocumentManager():
 
             # Set query options
             options = search.QueryOptions(
-                limit=limit, # the number of results to return
+                limit=limit,# the number of results to return
                 cursor=cursor,
                 sort_options=sort,
                 returned_fields=['name', 'address', 'location', 'pid', 'brands', 'phones'],
@@ -162,7 +162,7 @@ class BaseDocumentManager():
             #ALEXK added location example here, remove if all works
             # query = "distance(store_location, geopoint(-33.857, 151.215)) < 4500"
 
-            query = search.Query(query_string=query_string + 'AND distance(location, geopoint(%s, %s)) < 20000' %
+            query = search.Query(query_string=query_string + 'distance(location, geopoint(%s, %s)) < 20000' %
                                               (exampleLat, exampleLon), options=options)
             #query = search.Query(query_string=query_string, options=options)
 
