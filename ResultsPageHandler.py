@@ -27,7 +27,8 @@ class ResultsPageHandler(BaseHandler):
         #TODO: ARTIOM K. - need to take care of the location decomposition
         #the above code is not clear, so putting some checks
         coordinates_to_search = self.request.get('coordinatesForSearch')
-
+        # TODO Alex putting below some default value for the case that the input is empty
+        # Note: the below sample coordinates are corresponding to the point between Hamilton and Burlington
         if not coordinates_to_search:
             coordinates_to_search = "(43.3333, -79.9999)"
 
