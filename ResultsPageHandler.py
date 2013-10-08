@@ -25,8 +25,15 @@ class ResultsPageHandler(BaseHandler):
         logging.error("str_to_search is %s" % str_to_search)
 
         #TODO: ARTIOM K. - need to take care of the location decomposition
+        #the above code is not clear, so putting some checks
+        coordinates_to_search = self.request.get('coordinatesForSearch')
 
-        results = BaseDocumentManager.find_documents(str_to_search, 20, search.Cursor())
+        if not coordinates_to_search:
+            coordinates_to_search = "(43.3333, -79.9999)"
+
+        logging.error("coordinates_to_search is: %s" % coordinates_to_search)
+
+        results = BaseDocumentManager.find_documents(str_to_search, coordinates_to_search, 20, search.Cursor())
         if results:
             self.render("results.html", results=results)
         else:

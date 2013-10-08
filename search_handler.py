@@ -16,14 +16,14 @@ class SearchHandler(BaseHandler):
 
     def post(self):
         str_to_search = self.request.get('search')
-
+        coordinates_to_search = self.request.get('coordinatesForSearch')
         #str_to_search = "second"
         #logging.error("search ====================== %s " % str_to_search)
         # Set query options
 
         #query = search.Query(query_string=str_to_search, options=options)
         #results = search.Index(name=INDEX_NAME).search(str_to_search)
-        results = BaseDocumentManager.find_documents(str_to_search, 20, search.Cursor())
+        results = BaseDocumentManager.find_documents(str_to_search, coordinates_to_search, 20, search.Cursor())
 
         #self.write(results)
         if results:

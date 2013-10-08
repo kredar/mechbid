@@ -131,16 +131,17 @@ class BaseDocumentManager():
 
 
     @classmethod
-    def find_documents(cls, query_string, limit, cursor):
+    def find_documents(cls, query_string, coordinates_to_search, limit, cursor):
         try:
             # Nathan Philip Square (addr., lat, long)
             # 100 Queen St W, Toronto, ON
             # 43.6519186
             # -79.3824024
             #TODO: Alex need to get location geo points
-            exampleLat = float(43.6519186)
-            exampleLon = float(-79.3824024)
-            loc_expr = 'distance(location, geopoint(%s, %s))' % (exampleLat, exampleLon)
+            # exampleLat = float(43.6519186)
+            # exampleLon = float(-79.3824024)
+            #loc_expr = 'distance(location, geopoint(%s, %s))' % (exampleLat, exampleLon)
+            loc_expr = 'distance(location, geopoint%s)' % (coordinates_to_search)
 
             #expression='name',
             subject_desc = search.SortExpression(
@@ -161,7 +162,8 @@ class BaseDocumentManager():
 
             #ALEXK added location example here, remove if all works
             # query = "distance(store_location, geopoint(-33.857, 151.215)) < 4500"
-            query_distance = ' distance(location, geopoint(%s, %s))<20000' % (exampleLat, exampleLon)
+            #query_distance = ' distance(location, geopoint(%s, %s))<20000' % (exampleLat, exampleLon)
+            query_distance = ' distance(location, geopoint%s)<20000' % coordinates_to_search
             query_string += query_distance
             logging.error(query_string)
             query = search.Query(query_string=query_string, options=options)

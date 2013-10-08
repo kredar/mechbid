@@ -25,7 +25,7 @@ body {
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
     <script src="../js/location_services.js"></script>
     <script language="javascript">
-        google.maps.event.addDomListener(window, 'load', defineUserLocation);
+        //google.maps.event.addDomListener(window, 'load', resolveSearchLocation);
     </script>
 <!-- Fav and touch icons -->
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../ico/apple-touch-icon-144-precomposed.png">
@@ -122,7 +122,7 @@ body {
 &quot;Volkswagen&quot;,
 &quot;Volvo&quot;]" autocomplete="off">
         <label for="location">near</label>
-        <input type="text" name="location" value="" />
+        <input type="text" name="location" id="location" value="" onblur="resolveSearchLocation()"/>
         <input class="btn btn-primary" id="subreview" name="subreview" type="submit" value="Find a Repair Shop &raquo;"/>
       </form>
       <div class="clearfix" />
@@ -151,8 +151,13 @@ body {
 -->
 <hr>
 <footer>
-  <p>&copy; MechBid 2013   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Your location:<input type="text" id="userCurrPosition" size="50" name="userCurrPosition" value="initial"><!--this is for test purposes , to be removed-->
+  <p>&copy; MechBid 2013
+      <br>
+    Your Coordinates: ---------<input type="text" id="userCurrPosition" size="50" name="userCurrPosition" value="initial"><!--this is for test purposes , to be removed-->
+      <br>
+    Coord. from search str.:--<input type="text" id="requestedSearchLocation" size="50" name="requestedSearchLocation" value="initial"><!--this is for test purposes , to be removed-->
+      <br>
+    Result. coord. for search:<input type="text" id="coordinatesForSearch" size="50" name="coordinatesForSearch" value="initial"><!--this is for test purposes , to be removed-->
 </p>
 </footer>
 

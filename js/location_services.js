@@ -1,5 +1,6 @@
 /**
  * Created with PyCharm.
+ * Set of JS functions that are dealing with the geo-location and conversions between address and coordinates
  * User: AlexUser
  * Date: 7/30/13
  * Time: 1:48 AM
@@ -35,23 +36,50 @@ function fetchLocation() {
 }
 
 
-//function to return the current location of user using browser capabilities
-//initially designed to base the search upon it
-function defineUserLocation()
+//function to resolve the original search location
+// by ether using the current location of user utilizing browser capabilities
+// or converting the requested location into geocode
+function resolveSearchLocation()
 {
-    // Try HTML5 geolocation
-    if(navigator.geolocation) {
+    //alert('debug: INSIDE THE resolveSearchLocation! ');
+
+    var address="";
+        if ( null != document.getElementById("location") ){ //check that value is not null
+            address = document.getElementById("location").value;
+            //alert('debug : captured address :  ' + address);
+        }
+    else{//remove this else in cleanup
+            //alert('debug : location is null ');
+        }
+
+    if ( address && !(''==address) ){ // if the address string is not empty - use GOOGLE API to get loc by addr.
+        //alert('debug : INSIDE THE first IF ');
+        //duplicate from the above code, need to be refactored after test
+        geocoder.geocode({ 'address': address}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                //alert('Geocode generated: ' + results[0].geometry.location); //to do :remove this debug message
+                document.getElementById('requestedSearchLocation').value = results[0].geometry.location;
+                document.getElementById('coordinatesForSearch').value = results[0].geometry.location;
+                resolvedLocation = results[0].geometry.location;
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+    else if(navigator.geolocation) {// (address is empty - get location from browser) - Try HTML5 geolocation
+        //alert('debug : INSIDE THE ELSIF  ');
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = new google.maps.LatLng(position.coords.latitude,
                 position.coords.longitude);
-
+            //alert('Geocode generated: ' + pos);//to do :remove this debug message
             //insert more custom code here
-            document.getElementById("userCurrPosition").value =pos;
-
+            document.getElementById("userCurrPosition").value = pos;
+            document.getElementById("coordinatesForSearch").value = pos;
         }, function() {
             handleNoGeolocation(true);
         });
     } else {
+        //alert('debug : INSIDE THE final else ');
         // Browser doesn't support Geolocation
         handleNoGeolocation(false);
     }
