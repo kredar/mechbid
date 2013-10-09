@@ -9,7 +9,8 @@ from config import *
 
 _INDEX_NAME="my_mechanic"
 
-
+#currently this class is not in use , depricated.
+#using the ResultPageHandler instead
 class SearchHandler(BaseHandler):
     def get(self):
         self.render("search.html")
