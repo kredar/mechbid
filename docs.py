@@ -19,6 +19,8 @@ from config import *
 from google.appengine.api import search
 from google.appengine.ext import ndb
 
+from random import randint
+from random import uniform
 
 class DeleteDocsPageHandler(BaseHandler):
     def get(self):
@@ -61,6 +63,18 @@ class BaseDocumentManager():
             for brand in params['brands']:
                 brands += brand + ','
 
+        if params['num_reviews']=="":
+            logging.info("number of reviews is not defined")
+            num_reviews_var = random.randint(0, 100)        #random numbers for testing purposes
+        else:
+            num_reviews_var = int(params['num_reviews'])
+
+        if params['avg_rating']=="":
+            logging.info("average rating is not defined")
+            avg_rating_var=round(random.uniform(1, 10), 2)           #random numbers for testing purposes
+        else:
+            avg_rating_var=float(params['avg_rating'])
+
         document = search.Document(
             fields=[search.TextField(name='pid', value=params['pid']),
                     search.TextField(name='name', value=params['name']),
@@ -76,8 +90,9 @@ class BaseDocumentManager():
                     #search.TextField(name='phones', value=params['phones']),
                     #search.TextField(name='categories', value=params['categories']),
                     search.TextField(name='brands', value=brands),
-                    search.DateField(name='date', value=datetime.now().date())
-
+                    search.DateField(name='date', value=datetime.now().date()),
+                    search.NumberField(name='num_reviews', value=num_reviews_var),
+                    search.NumberField(name='avg_rating', value=avg_rating_var)
             ])
 
         try:
@@ -144,20 +159,28 @@ class BaseDocumentManager():
             loc_expr = 'distance(location, geopoint%s)' % (coordinates_to_search)
 
             #expression='name',
-            subject_desc = search.SortExpression(
+            sort1 = search.SortExpression(
                 expression=loc_expr,
                 direction=search.SortExpression.ASCENDING,
                 default_value=0)
+            sort2 = search.SortExpression(
+                expression='avg_rating',
+                direction=search.SortExpression.DESCENDING,
+                default_value=0)
+            sort3 = search.SortExpression(
+                expression='num_reviews',
+                direction=search.SortExpression.DESCENDING,
+                default_value=0)
 
             # Sort up to 1000 matching results by subject in descending order
-            sort = search.SortOptions(expressions=[subject_desc], limit=1000)
+            sort = search.SortOptions(expressions=[sort1, sort2, sort3], limit=1000)
 
             # Set query options
-            options = search.QueryOptions(
+            sort_options = search.QueryOptions(
                 limit=limit,# the number of results to return
                 cursor=cursor,
                 sort_options=sort,
-                returned_fields=['name', 'address', 'location', 'pid', 'brands', 'phones'],
+                returned_fields=['name', 'address', 'location', 'pid', 'brands', 'phones','num_reviews','avg_rating'],
                 snippeted_fields=['content'])
 
             #ALEXK added location example here, remove if all works
@@ -166,7 +189,7 @@ class BaseDocumentManager():
             query_distance = ' distance(location, geopoint%s)<20000' % coordinates_to_search
             query_string += query_distance
             logging.error(query_string)
-            query = search.Query(query_string=query_string, options=options)
+            query = search.Query(query_string=query_string, options=sort_options)
             #query = search.Query(query_string=query_string, options=options)
 
 

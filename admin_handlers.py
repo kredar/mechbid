@@ -146,125 +146,127 @@ def GetFileList(dir_name):
 
 
 def ImportNewBusiness(file_name, dir_name):
-        json_doc = OpenJson(file_name, dir_name)
-        if json_doc == 'null':
-            return 'ERROR: Could not open '+file_name+' file'
+    json_doc = OpenJson(file_name, dir_name)
+    if json_doc == 'null':
+        return 'ERROR: Could not open '+file_name+' file'
 
-        #parse json
+    #parse json
 
-        #website
-        try:
-            website = json_doc['products']['webUrl'][0]
-        except:
-            website='null'
+    #website
+    try:
+        website = json_doc['products']['webUrl'][0]
+    except:
+        website='null'
 
-        # categories
-        categories = []
-        try:
-            for category in json_doc['categories']:
-                categories.append(category['name'])
-        except:
-            categories=[]
+    # categories
+    categories = []
+    try:
+        for category in json_doc['categories']:
+            categories.append(category['name'])
+    except:
+        categories=[]
 
-        # phones
-        phones = []
-        try:
-            for phone in json_doc['phones']:
-                phone_dict = {'type': phone['type'], 'number': phone['dispNum']}
-                phones.append(phone_dict)
-        except:
-            phones=[]
+    # phones
+    phones = []
+    try:
+        for phone in json_doc['phones']:
+            phone_dict = {'type': phone['type'], 'number': phone['dispNum']}
+            phones.append(phone_dict)
+    except:
+        phones=[]
 
-        # pay methods
-        pay_methods = []
-        try:
-            for pmethod in json_doc['products']['profiles'][0]['keywords']['MthdPmt']:
-                pay_methods.append(pmethod)
-        except:
-            pay_methods=[]
+    # pay methods
+    pay_methods = []
+    try:
+        for pmethod in json_doc['products']['profiles'][0]['keywords']['MthdPmt']:
+            pay_methods.append(pmethod)
+    except:
+        pay_methods=[]
 
-        # spoken languages
-        lang_spk = []
-        try:
-            for lang in json_doc['products']['profiles'][0]['keywords']['LangSpk']:
-                lang_spk.append(lang)
-        except:
-            lang_spk=[]
+    # spoken languages
+    lang_spk = []
+    try:
+        for lang in json_doc['products']['profiles'][0]['keywords']['LangSpk']:
+            lang_spk.append(lang)
+    except:
+        lang_spk=[]
 
-        # open hours
-        open_hours = []
-        try:
-            for day in json_doc['products']['profiles'][0]['keywords']['OpenHrs']:
-                open_hours.append(day)
-        except:
-            open_hours=[]
+    # open hours
+    open_hours = []
+    try:
+        for day in json_doc['products']['profiles'][0]['keywords']['OpenHrs']:
+            open_hours.append(day)
+    except:
+        open_hours=[]
 
-        # products and services
-        products_services = []
-        try:
-            for prod_serv in json_doc['products']['profiles'][0]['keywords']['ProdServ']:
-               products_services.append(prod_serv)
-        except:
-            products_services=[]
+    # products and services
+    products_services = []
+    try:
+        for prod_serv in json_doc['products']['profiles'][0]['keywords']['ProdServ']:
+            products_services.append(prod_serv)
+    except:
+        products_services=[]
 
-        # specials
-        specials = []
-        try:
-            for special in json_doc['products']['profiles'][0]['keywords']['Special']:
-                specials.append(special)
-        except:
-            specials=[]
+    # specials
+    specials = []
+    try:
+        for special in json_doc['products']['profiles'][0]['keywords']['Special']:
+            specials.append(special)
+    except:
+        specials=[]
 
-        # brands
-        brands = []
-        try:
-            for brand in json_doc['products']['profiles'][0]['keywords']['BrndCrrd']:
-                brands.append(brand)
-        except:
-            brands=[]
+    # brands
+    brands = []
+    try:
+        for brand in json_doc['products']['profiles'][0]['keywords']['BrndCrrd']:
+            brands.append(brand)
+    except:
+        brands=[]
 
-        # teasers
-        teasers = []
-        try:
-            for teaser in json_doc['products']['profiles'][0]['keywords']['Teaser']:
-                teasers.append(teaser)
-        except:
-            teasers=[]
+    # teasers
+    teasers = []
+    try:
+        for teaser in json_doc['products']['profiles'][0]['keywords']['Teaser']:
+            teasers.append(teaser)
+    except:
+        teasers=[]
 
-        try:
-            businesName = json_doc['name']
-            businessAddressCity = json_doc['address']['city']
-        except:
-            return 'ERROR: '+file_name+' file is missing essential business information'
+    try:
+        businesName = json_doc['name']
+        businessAddressCity = json_doc['address']['city']
+    except:
+        return 'ERROR: '+file_name+' file is missing essential business information'
 
-        params = {
-            'pid': uuid.uuid4().hex, # auto-generate default UID
-            'name': businesName,
-            'street':  json_doc['address']['street'],
-            'city': json_doc['address']['city'],
-            'pcode': json_doc['address']['pcode'],
-            'province': json_doc['address']['prov'],
-            'email': '',
-            'website': website,
-            'geo_lat': json_doc['geoCode']['latitude'],
-            'geo_long': json_doc['geoCode']['longitude'],
-            'categories': categories,
-            'phones': phones,
-            'pay_methods': pay_methods,
-            'lang_spk': lang_spk,
-            'open_hours': open_hours,
-            'specials': specials,
-            'brands': brands,
-            'teasers': teasers,
-            'products_services': products_services}
+    params = {
+        'pid': uuid.uuid4().hex, # auto-generate default UID
+        'name': businesName,
+        'street':  json_doc['address']['street'],
+        'city': json_doc['address']['city'],
+        'pcode': json_doc['address']['pcode'],
+        'province': json_doc['address']['prov'],
+        'email': '',
+        'website': website,
+        'num_reviews': '',
+        'avg_rating': '',
+        'geo_lat': json_doc['geoCode']['latitude'],
+        'geo_long': json_doc['geoCode']['longitude'],
+        'categories': categories,
+        'phones': phones,
+        'pay_methods': pay_methods,
+        'lang_spk': lang_spk,
+        'open_hours': open_hours,
+        'specials': specials,
+        'brands': brands,
+        'teasers': teasers,
+        'products_services': products_services}
 
-        #self.write(params['phones'][0]['type'])
+    #self.write(params['phones'][0]['type'])
 
-        if Business.create(params, params['pid']) != 'null':
-            BaseDocumentManager.create_document(params)
-            return 'Business '+json_doc['name']+' successfully created'
+    if Business.create(params, params['pid']) != 'null':
+        BaseDocumentManager.create_document(params)
+        return 'Business '+json_doc['name']+' successfully created'
 
-        return 'ERROR creating '+json_doc['name']+' business!'
+    return 'ERROR creating '+json_doc['name']+' business!'
 
 
 class AdminHandler(BaseHandler):
@@ -294,18 +296,18 @@ class DeleteMechHandler(BaseHandler):
         categoryList = []
         serviceList = []
 
-       # qry = Business.query()
+        # qry = Business.query()
         ndb.delete_multi(Business.query().fetch(999999, keys_only=True))
         #for row in qry:
-         #   for category in row.categories:
-          #         if category not in categoryList:
-           #            categoryList.append(category)
-            #for service in row.services:
-             #      if service not in serviceList:
-              #         serviceList.append(service)
+        #   for category in row.categories:
+        #         if category not in categoryList:
+        #            categoryList.append(category)
+        #for service in row.services:
+        #      if service not in serviceList:
+        #         serviceList.append(service)
         self.write('All Businesses have been deleted')
         #for row in qry:
-           # self.write(row.brandsServiced)
+        # self.write(row.brandsServiced)
         #    self.write('<br>')
 
 
@@ -345,6 +347,8 @@ class CreateBusinessHandler(BaseHandler):
             'email': self.request.get('email'),
             'website': self.request.get('website'),
             'location': self.request.get('location'),
+            'avg_rating': self.request.get('avg_rating'),
+            'num_reviews': self.request.get('num_reviews'),
             #Artiom K. Temporary
             'geo_lat': "43.6519186",
             'geo_long': "-79.3824024",
@@ -368,6 +372,5 @@ class CreateBusinessHandler(BaseHandler):
         #Artyom
 
         #self.response.write("<h3>"+phones['number1']+"</h3><br><h3>"+phones['type2']+"</h3>")
-
 
 
