@@ -83,6 +83,12 @@ function resolveSearchLocation()
         // Browser doesn't support Geolocation
         handleNoGeolocation(false);
     }
+
+    if ( document.getElementById("coordinatesForSearch").value == "initial")
+    {
+        alert("coordinatesForSearch=["+ document.getElementById("coordinatesForSearch").value +" ]. Oops, location for search could not be defined. Please either populate the location field or verify that your browser is allowing use of geologation");
+        return false;
+    }
 }
 
 function handleNoGeolocation(errorFlag) {

@@ -75,7 +75,7 @@ body {
     <h1>MechBid &#8211; your one-stop source for Ontario mechanics</h1>
     <p>MechBid is the leading provider of auto repair and maintenance information to consumers. Our extensive network of repair shops helps you find a repair shop you can trust, and our price estimator ensures you never pay more than you should. We also offer an extensive database of articles, reports, and references from our in-house repair experts and community of car owners.</p>
     <div class="search-box-home">
-      <form class="form-inline"  method="post">
+      <form class="form-inline"  method="post" onsubmit="return resolveSearchLocation()">
         <input type="hidden" name="category" value="books" />
         <label for="search">I want to fix my</label>
         <input type="text" name="search" data-provide="typeahead" data-items="4" data-source="[&quot;Acura&quot;,
@@ -123,7 +123,7 @@ body {
 &quot;Volvo&quot;]" autocomplete="off">
         <label for="location">near</label>
         <input type="text" name="location" id="location" value=""/>
-        <input class="btn btn-primary" id="subreview" name="subreview" type="submit" value="Find a Repair Shop &raquo;" onfocus="resolveSearchLocation()"/>
+        <input class="btn btn-primary" id="subreview" name="subreview" type="submit" value="Find a Repair Shop &raquo;" />
       </form>
       <div class="clearfix" />
     </div>
