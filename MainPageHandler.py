@@ -16,6 +16,17 @@ class MainPageHandler(BaseHandler):
     def post(self):
         str_to_search = self.request.get('search')
         location = self.request.get('location')
+        if (location == ''):
+            coordinatesForSearch = self.request.get('coordinatesForSearch')
+            requestedSearchLocation = self.request.get('requestedSearchLocation')
+            userCurrPosition = self.request.get('userCurrPosition')
+
+            logging.error("coordinates are %s " % coordinatesForSearch)
+            logging.error("requestedSearchLocation are %s " % requestedSearchLocation)
+            logging.error("userCurrPosition are %s " % userCurrPosition)
+
+
+        logging.error("Location is %s"  % location)
         str_to_search = str_to_search.replace('-', '--')
         location = location.replace('-', '--')
         #TODO Artiom K: Make sure I am handling all the special and UNICODE characters
