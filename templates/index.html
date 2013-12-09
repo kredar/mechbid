@@ -75,7 +75,7 @@ body {
     <h1>MechBid &#8211; your one-stop source for Ontario mechanics</h1>
     <p>MechBid is the leading provider of auto repair and maintenance information to consumers. Our extensive network of repair shops helps you find a repair shop you can trust, and our price estimator ensures you never pay more than you should. We also offer an extensive database of articles, reports, and references from our in-house repair experts and community of car owners.</p>
     <div class="search-box-home">
-      <form class="form-inline"  method="post" onsubmit="return resolveSearchLocation()">
+      <form class="form-inline"  method="post" id="mainForm">
         <input type="hidden" name="category" value="books" />
         <label for="search">I want to fix my</label>
         <input type="text" name="search" data-provide="typeahead" data-items="4" data-source="[&quot;Acura&quot;,
@@ -123,14 +123,26 @@ body {
 &quot;Volvo&quot;]" autocomplete="off">
         <label for="location">near</label>
         <input type="text" name="location" id="location" value=""/>
-        <input class="btn btn-primary" id="subreview" name="subreview" type="submit" value="Find a Repair Shop &raquo;" />
+        <input class="btn btn-primary" id="subreview" name="subreview" type="button" value="Find a Repair Shop &raquo;" onclick="processAndSubmit()"/>
+
+
+          <br><br>
+          Note: Dear user, if location was not provided as a criteria for search - the system will try to fetch the location from your browser to use a center point for the search.
+          In such case - please make sure that your browser is allowed to identify your location.
+          <br>
+          Your Coordinates: --------<input type="text" id="userCurrPosition" size="50" name="userCurrPosition" value="initial" disabled="disabled"><!--this is for test purposes , to be removed-->
+          <br>
+          Coord. from search str.:--<input type="text" id="requestedSearchLocation" size="50" name="requestedSearchLocation" value="initial" disabled="disabled"><!--this is for test purposes , to be removed-->
+          <br>
+          Result. coord. for search:<input type="text" id="coordinatesForSearch" size="50" name="coordinatesForSearch" value="initial" disabled="disabled"><!--this is for test purposes , to be removed-->
+
       </form>
       <div class="clearfix" />
     </div>
   </div>
 </div>
 
-<!-- Example row of columns --> 
+<!-- Example row of columns -->
 <!--  <div class="row">
     <div class="span4">
       <h2>Heading</h2>
@@ -152,15 +164,7 @@ body {
 <hr>
 <footer>
   <p>&copy; MechBid 2013
-      <br>
-    Note: Dear user, if location was not provided as a criteria for search - the system will try to fetch the location from your browser to use a center point for the search.
-          In such case - please make sure that your browser is allowed to identify your location.
-      <br>
-    Your Coordinates: ---------<input type="text" id="userCurrPosition" size="50" name="userCurrPosition" value="initial"><!--this is for test purposes , to be removed-->
-      <br>
-    Coord. from search str.:--<input type="text" id="requestedSearchLocation" size="50" name="requestedSearchLocation" value="initial"><!--this is for test purposes , to be removed-->
-      <br>
-    Result. coord. for search:<input type="text" id="coordinatesForSearch" size="50" name="coordinatesForSearch" value="initial"><!--this is for test purposes , to be removed-->
+
 </p>
 </footer>
 

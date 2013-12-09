@@ -35,67 +35,91 @@ function fetchLocation() {
     //alert('value of location is : ' + document.getElementById('location').value);
 }
 
+function processAndSubmit() {
+    console.log("DEBUG : inside processAndSubmit");
+    //experimenting with callback: the function is defined here but the value for the function will be sent inside
+    resolveSearchLocation(function (resolvedLocationResult,resolvedLocationStatus) {
+        console.log("DEBUG : back from callback, just before submit, " +
+            "resolvedLocationResult = [" + resolvedLocationResult + "], " +
+            "resolvedLocationStatus = [" + resolvedLocationStatus+ "]");
+        if (resolvedLocationStatus != 'OK') {
+            var r=confirm("Location cannot be defined for search. \nPress OK to use Toronto as default \n" +
+                "or press Cancel if you wish to put the address or allow access to location via browser.");
+            if (r==true){
+                console.log("DEBUG : using Toronto as Default (43.67, -79.39) and Submitting.");
+                document.getElementById('coordinatesForSearch').value = '(43.67, -79.39)';
+                document.getElementById("mainForm").submit();
+            } else {
+                console.log("DEBUG : cancel pressed in confirmation message");
+            }
+            //alert("Did not get the location, put the smart thing there");
+        } else {
+            document.getElementById('coordinatesForSearch').value = resolvedLocationResult;
+            console.log("DEBUG : before SUBMIT");
+            document.getElementById("mainForm").submit();
+        }
+    });
+}
 
 //function to resolve the original search location
 // by ether using the current location of user utilizing browser capabilities
 // or converting the requested location into geocode
-function resolveSearchLocation()
-{
-    //alert('debug: INSIDE THE resolveSearchLocation! ');
+function resolveSearchLocation(myCallbackFunction) {
+    console.group("DEBUG:inside resolveSearchLocation");
+    var address = "";
+    if (document.getElementById("location").value != "") { //check that value is empty string
+        address = document.getElementById("location").value;
+        console.log("DEBUG : captured address is:  " + address);
+    }
+    else {
+        console.log("DEBUG: user-provided location is empty");
+    }
 
-    var address="";
-        if ( null != document.getElementById("location") ){ //check that value is not null
-            address = document.getElementById("location").value;
-            //alert('debug : captured address :  ' + address);
-        }
-    else{//remove this else in cleanup
-            //alert('debug : location is null ');
-        }
-
-    if ( address && !(''==address) ){ // if the address string is not empty - use GOOGLE API to get loc by addr.
-        //alert('debug : INSIDE THE first IF ');
+    if (address && !('' == address)) { // if the address string is not empty - use GOOGLE API to get loc by addr.
+        console.log("DEBUG: address string is not empty. Before use GOOGLE API to get loc by addr. ");
         //duplicate from the above code, need to be refactored after test
         geocoder.geocode({ 'address': address}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-                //alert('Geocode generated: ' + results[0].geometry.location); //to do :remove this debug message
-                document.getElementById('requestedSearchLocation').value = results[0].geometry.location;
-                document.getElementById('coordinatesForSearch').value = results[0].geometry.location;
-                resolvedLocation = results[0].geometry.location;
+                console.log("DEBUG: google.maps.GeocoderStatus.OK ");
+                if (!results[0]) {console.log("DEBUG: no results found ");}//array of results is empty
+                myCallbackFunction(results[0].geometry.location, "OK");
+                console.log("DEBUG:Geocode generated (for user-provided address): " + results[0].geometry.location );
             } else {
-                alert('Geocode was not successful for the following reason: ' + status);
+                console.log("DEBUG:Geocode was not successful for the following reason: " + status);
+                myCallbackFunction("EMPTY", status);
             }
         });
     }
-    else if(navigator.geolocation) {// (address is empty - get location from browser) - Try HTML5 geolocation
-        //alert('debug : INSIDE THE ELSIF  ');
-        navigator.geolocation.getCurrentPosition(function(position) {
+    else if (navigator.geolocation) {// (address is empty - get location from browser) - Try HTML5 geolocation
+        console.log("DEBUG: inside elsif, address is not typed. BEFORE getCurrentPosition from Browser." );
+        navigator.geolocation.getCurrentPosition(function (position) {
             var pos = new google.maps.LatLng(position.coords.latitude,
                 position.coords.longitude);
-            //alert('Geocode generated: ' + pos);//to do :remove this debug message
+            //console.log("DEBUG: Geocode generated:"  + pos);
             //insert more custom code here
             document.getElementById("userCurrPosition").value = pos;
             document.getElementById("coordinatesForSearch").value = pos;
-        }, function() {
-            handleNoGeolocation(true);
+            myCallbackFunction(pos);
+        }, function () {
+            //handleNoGeolocation(true);
+            myCallbackFunction("EMPTY", "Error: The Geolocation service failed to fetch the coordinates from browser.");
         });
-    } else {
-        //alert('debug : INSIDE THE final else ');
-        // Browser doesn't support Geolocation
-        handleNoGeolocation(false);
+    } else {// Browser doesn't support Geolocation
+        console.log("DEBUG:Handling NoGeolocation case" );
+        //handleNoGeolocation(false);
+        myCallbackFunction("", "Error: Your browser doesnt support geolocation.");
     }
 
-    if ( document.getElementById("coordinatesForSearch").value == "initial")
-    {
-        alert("coordinatesForSearch=["+ document.getElementById("coordinatesForSearch").value +" ]. Oops, location for search could not be defined. Please either populate the location field or verify that your browser is allowing use of geologation");
-        return false;
-    }
+    console.groupEnd();
 }
 
 function handleNoGeolocation(errorFlag) {
     if (errorFlag) {
         var content = 'Error: The Geolocation service failed.';
+        console.log("DEBUG:Error: The Geolocation service failed");
     } else {
-        var content = 'Error: Your browser doesn\'t support geolocation.';
+        var content = 'Error: Your browser doesnt support geolocation.';
+        console.log("DEBUG:Error: Your browser doesnt support geolocation.");
     }
 
 }
