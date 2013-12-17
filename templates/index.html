@@ -78,7 +78,7 @@ body {
       <form class="form-inline"  method="post" id="mainForm">
         <input type="hidden" name="category" value="books" />
         <label for="search">I want to fix my</label>
-        <input type="text" name="search" data-provide="typeahead" data-items="4" data-source="[&quot;Acura&quot;,
+        <input type="text" name="search" data-provide="typeahead" data-items="4" placeholder="Type make here" data-source="[&quot;Acura&quot;,
 &quot;Audi&quot;,
 &quot;BMW&quot;,
 &quot;Buick&quot;,
@@ -122,7 +122,7 @@ body {
 &quot;Volkswagen&quot;,
 &quot;Volvo&quot;]" autocomplete="off">
         <label for="location">near</label>
-        <input type="text" name="location" id="location" value=""/>
+        <input type="text" name="location" id="location" value="" placeholder="Type address here"/> <!-- Warning: Placeholder is HTML5 feature-->
         <input class="btn btn-primary" id="subreview" name="subreview" type="button" value="Find a Repair Shop &raquo;" onclick="processAndSubmit()"/>
 
 

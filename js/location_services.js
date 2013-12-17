@@ -38,24 +38,26 @@ function fetchLocation() {
 function processAndSubmit() {
     console.log("DEBUG : inside processAndSubmit");
     //experimenting with callback: the function is defined here but the value for the function will be sent inside
-    resolveSearchLocation(function (resolvedLocationResult,resolvedLocationStatus) {
+    resolveSearchLocation(function (resolvedCoordResult,resolvedCoordStatus, resolvedAddrResult, resolvedAddrStatus) {
         console.log("DEBUG : back from callback, just before submit, " +
-            "resolvedLocationResult = [" + resolvedLocationResult + "], " +
-            "resolvedLocationStatus = [" + resolvedLocationStatus+ "]");
-        if (resolvedLocationStatus != 'OK') {
-            var r=confirm("Location cannot be defined for search. \nPress OK to use Toronto as default \n" +
-                "or press Cancel if you wish to put the address or allow access to location via browser.");
-            if (r==true){
-                console.log("DEBUG : using Toronto as Default (43.67, -79.39) and Submitting.");
+            "\n resolvedCoordResult = [" + resolvedCoordResult + "], " +
+            "\n resolvedCoordStatus = [" + resolvedCoordStatus+ "], " +
+            "\n resolvedAddrResult = [" + resolvedAddrResult + "], " +
+            "\n resolvedAddrStatus = [" + resolvedAddrStatus + "].");
+        if (resolvedCoordStatus != 'OK') {
+            var confPopupResponse=confirm("Location cannot be defined for search. \nPress [OK] to use Toronto as default \n" +
+                "or press [Cancel] if you wish to put the address or allow access to location via browser.");
+            if (confPopupResponse==true){//user pressed OK , mean wants to use hardcoded default
+                console.log("DEBUG : before SUBMIT, using Toronto as Default (43.67, -79.39).");
                 document.getElementById('coordinatesForSearch').value = '(43.67, -79.39)';
                 document.getElementById("mainForm").submit();
             } else {
                 console.log("DEBUG : cancel pressed in confirmation message");
             }
             //alert("Did not get the location, put the smart thing there");
-        } else {
-            document.getElementById('coordinatesForSearch').value = resolvedLocationResult;
-            console.log("DEBUG : before SUBMIT");
+        } else {//resolved coordinates are OK
+            document.getElementById('coordinatesForSearch').value = resolvedCoordResult;
+            console.log("DEBUG : before SUBMIT for case of : resolved coordinates are OK.");
             document.getElementById("mainForm").submit();
         }
     });
@@ -77,30 +79,49 @@ function resolveSearchLocation(myCallbackFunction) {
 
     if (address && !('' == address)) { // if the address string is not empty - use GOOGLE API to get loc by addr.
         console.log("DEBUG: address string is not empty. Before use GOOGLE API to get loc by addr. ");
-        //duplicate from the above code, need to be refactored after test
         geocoder.geocode({ 'address': address}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 console.log("DEBUG: google.maps.GeocoderStatus.OK ");
                 if (!results[0]) {console.log("DEBUG: no results found ");}//array of results is empty
-                myCallbackFunction(results[0].geometry.location, "OK");
+                myCallbackFunction(results[0].geometry.location, "OK",'placeholder','placeholder');
                 console.log("DEBUG:Geocode generated (for user-provided address): " + results[0].geometry.location );
             } else {
                 console.log("DEBUG:Geocode was not successful for the following reason: " + status);
-                myCallbackFunction("EMPTY", status);
+                myCallbackFunction("EMPTY", status,'placeholder','placeholder');
             }
         });
     }
-    else if (navigator.geolocation) {// (address is empty - get location from browser) - Try HTML5 geolocation
+    else if (navigator.geolocation) {// address is empty ,get location from browser) - Try HTML5 geolocation
         console.log("DEBUG: inside elsif, address is not typed. BEFORE getCurrentPosition from Browser." );
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = new google.maps.LatLng(position.coords.latitude,
-                position.coords.longitude);
-            //console.log("DEBUG: Geocode generated:"  + pos);
+        navigator.geolocation.getCurrentPosition(function getCurrentPositionSuccessFunction(position) {
+            var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             //insert more custom code here
             document.getElementById("userCurrPosition").value = pos;
             document.getElementById("coordinatesForSearch").value = pos;
-            myCallbackFunction(pos);
-        }, function () {
+            console.log("DEBUG:Coordinate resolved (for browser-based coordinates): [" + pos +"], before defining the address ");
+
+            //find a real street address based on browser-defined geolocation
+            geocoder.geocode({'latLng': pos}, function(addrResults, addrStatus) {
+                if (addrStatus == google.maps.GeocoderStatus.OK) {
+                    console.log("DEBUG:addrStatus = google.maps.GeocoderStatus.OK, addrResults=" + addrResults[1].formatted_address);
+                    if (addrResults[1]) {//set the "location" variable to auto-fetched address instead of user-defined
+                        var locationBeforeSet = document.getElementById('location').value;
+
+                        document.getElementById('location').value = addrResults[1].formatted_address;//results[1].formatted_address;
+                        //var locationAfterSet=document.getElementById('location').value;
+                        console.log("DEBUG: location after set = " + document.getElementById('location').value+ " invoking callback for submit" );
+                        myCallbackFunction(pos, "OK",addrResults[1].formatted_address,"OK");
+                    } else {
+                        console.log("DEBUG:inside the else statement - Cannot find address by using the user coordinates");
+                        alert('Cannot find address by using the user coordinates');
+                    }
+                } else {
+                    console.log("DEBUG:inside the else statement - GeocoderStatus NOT OK ");
+                    alert('Geocoder failed due to: ' + addrStatus + 'while converting coordinates to address');
+                }
+            });
+
+        }, function getCurrentPositionFailureFunction() {
             //handleNoGeolocation(true);
             myCallbackFunction("EMPTY", "Error: The Geolocation service failed to fetch the coordinates from browser.");
         });
